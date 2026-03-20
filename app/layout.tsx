@@ -4,6 +4,7 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import TrustBar from "@/components/TrustBar";
+import { getJobCount } from "@/lib/acp";
 
 // ── Fonts ──────────────────────────────────────────────────────────────────
 // JetBrains Mono: UI, body, all monospace text (default body font)
@@ -50,11 +51,13 @@ export const metadata: Metadata = {
 };
 
 // ── Root Layout ────────────────────────────────────────────────────────────
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jobCount = await getJobCount();
+
   return (
     <html
       lang="en"
@@ -65,7 +68,7 @@ export default function RootLayout({
 
         <main>{children}</main>
 
-        <TrustBar />
+        <TrustBar jobCount={jobCount} />
         <Footer />
       </body>
     </html>

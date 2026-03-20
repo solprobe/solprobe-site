@@ -3,6 +3,7 @@ import Terminal from "@/components/Terminal";
 import StatsStrip from "@/components/StatsStrip";
 import HowItWorks from "@/components/HowItWorks";
 import ServiceCard from "@/components/ServiceCard";
+import { getJobCount } from "@/lib/acp";
 
 // ── Service tier data ───────────────────────────────────────────────────────
 const TIERS = [
@@ -71,7 +72,8 @@ const TRUST_BADGES = [
 ] as const;
 
 // ── Page ────────────────────────────────────────────────────────────────────
-export default function HomePage() {
+export default async function HomePage() {
+  const jobCount = await getJobCount();
   return (
     <>
       {/* ── Hero ── */}
@@ -162,7 +164,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Stats strip ── */}
-      <StatsStrip />
+      <StatsStrip jobCount={jobCount} />
 
       {/* ── How it works ── */}
       <HowItWorks />
