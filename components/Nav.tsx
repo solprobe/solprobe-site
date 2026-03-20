@@ -44,10 +44,7 @@ export default function Nav() {
       {/* Centre nav links — hidden below 900px */}
       <ul className="hidden md:flex items-center gap-8 list-none">
         {NAV_LINKS.map(({ href, label }) => {
-          const isActive =
-            href === "/"
-              ? pathname === "/"
-              : pathname.startsWith(href.replace("/#", "/"));
+          const isActive = pathname.startsWith(href.replace("/#", "/"));
           return (
             <li key={href}>
               <Link
