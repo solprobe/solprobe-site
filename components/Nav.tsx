@@ -20,7 +20,7 @@ export default function Nav() {
       className="
         fixed top-0 left-0 right-0 z-50
         flex items-center justify-between
-        px-12 h-nav
+        px-4 sm:px-8 lg:px-12 h-nav
         bg-bg/85 backdrop-blur-[20px]
         border-b border-border
       "

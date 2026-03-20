@@ -25,12 +25,12 @@ export default function StatsStrip({ jobCount = 0 }: StatsStripProps) {
   ];
 
   return (
-    <div className="relative z-10 border-y border-border bg-bg2">
-      <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border">
+    <div className="relative z-10 border-y border-border">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border">
         {cells.map(({ value, label, color }) => (
           <div
             key={label}
-            className="flex flex-col items-center justify-center py-8 px-6 gap-1"
+            className="bg-bg2 flex flex-col items-center justify-center py-8 px-6 gap-1"
           >
             <span className={`font-mono font-bold text-3xl ${color}`}>
               {value}

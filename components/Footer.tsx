@@ -10,7 +10,7 @@ const FOOTER_LINKS = [
 export default function Footer() {
   return (
     <footer className="relative z-10 border-t border-border">
-      <div className="max-w-8xl mx-auto px-section-x h-14 flex items-center justify-between">
+      <div className="max-w-8xl mx-auto px-section-x py-5 sm:py-0 sm:h-14 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-0 sm:justify-between">
         {/* Left — copyright */}
         <p className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-muted">
           © 2025 SolProbe · Built on Virtuals Protocol ACP · Solana
