@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SolProbe — Solana Token Intelligence for AI Agents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080b0f;
+    --bg2: #0d1117;
+    --bg3: #111820;
+    --border: rgba(255,255,255,0.07);
+    --border-bright: rgba(255,255,255,0.14);
+    --sol: #9945FF;
+    --sol-dim: rgba(153,69,255,0.15);
+    --sol-glow: rgba(153,69,255,0.35);
+    --green: #14F195;
+    --green-dim: rgba(20,241,149,0.12);
+    --green-glow: rgba(20,241,149,0.3);
+    --amber: #FFB800;
+    --amber-dim: rgba(255,184,0,0.1);
+    --text: #e8eaf0;
+    --text-muted: #6b7280;
+    --text-dim: #374151;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(153,69,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(153,69,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── SCANLINE EFFECT ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(8,11,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 28px;
+    height: 28px;
+    border: 1.5px solid var(--sol);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 0 12px var(--sol-glow);
+  }
+
+  .logo-mark::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--sol);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--sol);
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--green);
+    border: 1px solid rgba(20,241,149,0.3);
+    padding: 8px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+    background: var(--green-dim);
+  }
+
+  .nav-cta:hover {
+    background: rgba(20,241,149,0.2);
+    box-shadow: 0 0 16px var(--green-glow);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 48px 80px;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -200px;
+    left: -200px;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(153,69,255,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-glow-2 {
+    position: absolute;
+    bottom: -100px;
+    right: -100px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(20,241,149,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green);
+    border: 1px solid rgba(20,241,149,0.2);
+    padding: 6px 14px;
+    border-radius: 3px;
+    margin-bottom: 28px;
+    background: var(--green-dim);
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(20,241,149,0.4); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(20,241,149,0); }
+  }
+
+  .hero-headline {
+    font-family: var(--sans);
+    font-size: clamp(42px, 5vw, 68px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+
+  .hero-headline .accent { color: var(--sol); }
+  .hero-headline .accent-green { color: var(--green); }
+
+  .hero-sub {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+    max-width: 440px;
+  }
+
+  .hero-sub strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--green);
+    padding: 14px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    background: #0fd980;
+    box-shadow: 0 0 28px var(--green-glow);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: transparent;
+    padding: 14px 28px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1px solid var(--border-bright);
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    color: var(--text);
+    border-color: rgba(255,255,255,0.25);
+  }
+
+  /* ── TERMINAL CARD ── */
+  .terminal {
+    background: var(--bg2);
+    border: 1px solid var(--border-bright);
+    border-radius: 10px;
+    overflow: hidden;
+    font-family: var(--mono);
+    box-shadow: 0 0 60px rgba(153,69,255,0.08), 0 32px 64px rgba(0,0,0,0.4);
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot-red { background: #ff5f56; }
+  .dot-yellow { background: #ffbd2e; }
+  .dot-green { background: #27c93f; }
+
+  .terminal-title {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-left: auto;
+    margin-right: auto;
+    letter-spacing: 0.08em;
+  }
+
+  .terminal-body {
+    padding: 20px;
+    font-size: 12px;
+    line-height: 2;
+  }
+
+  .t-line { display: flex; gap: 12px; }
+  .t-prompt { color: var(--sol); user-select: none; }
+  .t-cmd { color: var(--text); }
+  .t-comment { color: var(--text-dim); }
+  .t-key { color: var(--amber); }
+  .t-val { color: var(--green); }
+  .t-str { color: #e06c75; }
+  .t-num { color: #d19a66; }
+  .t-obj { color: var(--text-muted); }
+  .t-blank { height: 8px; }
+
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 14px;
+    background: var(--green);
+    margin-left: 2px;
+    animation: blink 1.1s step-end infinite;
+    vertical-align: middle;
+  }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .stat-cell {
+    padding: 32px 40px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .stat-cell:last-child { border-right: none; }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .stat-value {
+    font-family: var(--mono);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+  }
+
+  .stat-value.green { color: var(--green); }
+  .stat-value.sol { color: var(--sol); }
+  .stat-delta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+  }
+
+  /* ── SECTION BASE ── */
+  section {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 100px 48px;
+  }
+
+  .section-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sol);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-tag::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--sol);
+  }
+
+  .section-heading {
+    font-family: var(--sans);
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    max-width: 520px;
+    margin-bottom: 60px;
+  }
+
+  /* ── HOW IT WORKS ── */
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .how-card {
+    background: var(--bg2);
+    padding: 36px 32px;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .how-card:hover { background: var(--bg3); }
+
+  .how-step {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .how-step-num {
+    width: 22px;
+    height: 22px;
+    border: 1px solid var(--border-bright);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .how-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .how-title {
+    font-family: var(--sans);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .how-desc {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+
+  .how-connector {
+    position: absolute;
+    top: 36px;
+    right: -14px;
+    width: 28px;
+    height: 28px;
+    background: var(--bg);
+    border: 1px solid var(--border-bright);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  /* ── SERVICES ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .service-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px 24px;
+    position: relative;
+    transition: all 0.25s;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--card-accent, var(--border));
+    transition: opacity 0.2s;
+  }
+
+  .service-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+
+  .service-card.featured {
+    --card-accent: var(--sol);
+    border-color: rgba(153,69,255,0.25);
+    background: linear-gradient(135deg, rgba(153,69,255,0.05) 0%, var(--bg2) 60%);
+  }
+
+  .service-tier {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+
+  .service-price {
+    font-family: var(--mono);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.03em;
+    margin-bottom: 4px;
+    line-height: 1;
+  }
+
+  .service-price span {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 0;
+  }
+
+  .service-name {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  .service-divider {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 16px;
+  }
+
+  .service-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .service-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .service-features li::before {
+    content: '→';
+    color: var(--green);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .service-sla {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .service-sla::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+    box-shadow: 0 0 6px var(--green);
+  }
+
+  /* ── TRUST / ACP ── */
+  .trust-section {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 80px 48px;
+  }
+
+  .trust-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .trust-badges {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .trust-badge {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: border-color 0.2s;
+  }
+
+  .trust-badge:hover { border-color: var(--border-bright); }
+
+  .trust-badge-icon {
+    font-size: 20px;
+  }
+
+  .trust-badge-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .trust-badge-value {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .trust-badge.verified {
+    border-color: rgba(20,241,149,0.2);
+    background: var(--green-dim);
+  }
+
+  .trust-badge.verified .trust-badge-label { color: var(--green); }
+
+  .trust-chain-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--sol);
+    border: 1px solid rgba(153,69,255,0.3);
+    border-radius: 4px;
+    padding: 6px 12px;
+    background: var(--sol-dim);
+    margin-top: 8px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-left {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .footer-right {
+    display: flex;
+    gap: 28px;
+  }
+
+  .footer-right a {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .footer-right a:hover { color: var(--text-muted); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .fade-up:nth-child(1) { animation-delay: 0.1s; }
+  .fade-up:nth-child(2) { animation-delay: 0.2s; }
+  .fade-up:nth-child(3) { animation-delay: 0.3s; }
+  .fade-up:nth-child(4) { animation-delay: 0.4s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 24px 60px; }
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    .stats-strip { grid-template-columns: repeat(2, 1fr); }
+    section { padding: 64px 24px; }
+    .how-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .trust-inner { grid-template-columns: 1fr; gap: 48px; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-mark"></div>
+    SOLPROBE
+  </a>
+  <ul class="nav-links">
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#docs">Docs</a></li>
+    <li><a href="/status">Status</a></li>
+  </ul>
+  <a href="#services" class="nav-cta">View services</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow-2"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-tag fade-up">Live on ACP Mainnet</div>
+      <h1 class="hero-headline fade-up">
+        Solana token<br>
+        intelligence<br>
+        <span class="accent-green">for AI agents</span>
+      </h1>
+      <p class="hero-sub fade-up">
+        SolProbe is a <strong>Virtuals Protocol ACP agent</strong> that delivers
+        on-chain token analysis to other agents — from <strong>$0.01 quick scans</strong>
+        to <strong>$0.50 deep dives</strong>. Fast, composable, trustless.
+      </p>
+      <div class="hero-actions fade-up">
+        <a href="#services" class="btn-primary">Explore services →</a>
+        <a href="/docs" class="btn-secondary">Read the docs</a>
+      </div>
+    </div>
+
+    <!-- TERMINAL -->
+    <div class="terminal fade-up">
+      <div class="terminal-bar">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+        <span class="terminal-title">solprobe — deep_scan.json</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-line">
+          <span class="t-prompt">$</span>
+          <span class="t-cmd">acp request solprobe --service deep_scan</span>
+        </div>
+        <div class="t-blank"></div>
+        <div class="t-line"><span class="t-obj">{</span></div>
+        <div class="t-line" style="padding-left:16px">
+          <span class="t-key">"token"</span><span class="t-obj">:&nbsp;</span><span class="t-str">"So1Probe...xK9"</span><span class="t-obj">,</span>
+        </div>
+        <div class="t-line" style="padding-left:16px">
+          <span class="t-key">"risk_score"</span><span class="t-obj">:&nbsp;</span><span class="t-num">2.4</span><span class="t-obj">,</span>
+        </div>
+        <div class="t-line" style="padding-left:16px">
+          <span class="t-key">"holder_concentration"</span><span class="t-obj">:&nbsp;</span><span class="t-str">"LOW"</span><span class="t-obj">,</span>
+        </div>
+        <div class="t-line" style="padding-left:16px">
+          <span class="t-key">"liquidity_depth"</span><span class="t-obj">:&nbsp;</span><span class="t-str">"$284k"</span><span class="t-obj">,</span>
+        </div>
+        <div class="t-line" style="padding-left:16px">
+          <span class="t-key">"mint_authority"</span><span class="t-obj">:&nbsp;</span><span class="t-val">null</span><span class="t-obj">,</span>
+        </div>
+        <div class="t-line" style="padding-left:16px">
+          <span class="t-key">"freeze_authority"</span><span class="t-obj">:&nbsp;</span><span class="t-val">null</span><span class="t-obj">,</span>
+        </div>
+        <div class="t-line" style="padding-left:16px">
+          <span class="t-key">"verdict"</span><span class="t-obj">:&nbsp;</span><span class="t-val">"SAFE"</span><span class="t-obj">,</span>
+        </div>
+        <div class="t-line" style="padding-left:16px">
+          <span class="t-key">"latency_ms"</span><span class="t-obj">:&nbsp;</span><span class="t-num">340</span>
+        </div>
+        <div class="t-line"><span class="t-obj">}</span></div>
+        <div class="t-blank"></div>
+        <div class="t-line">
+          <span class="t-prompt">$</span>
+          <span class="t-comment"># job completed · fee: $0.50 VIRTUAL</span>
+        </div>
+        <div class="t-line">
+          <span class="t-prompt">$</span><span class="cursor"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stat-cell">
+    <div class="stat-label">Jobs completed</div>
+    <div class="stat-value green" id="job-count">0</div>
+    <div class="stat-delta">↑ live on ACP</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-label">Avg latency</div>
+    <div class="stat-value">~340<span style="font-size:16px;color:var(--text-muted)">ms</span></div>
+    <div class="stat-delta">deep scan</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-label">Service tiers</div>
+    <div class="stat-value sol">4</div>
+    <div class="stat-delta">$0.01 → $0.50</div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-label">Uptime</div>
+    <div class="stat-value green">99.9<span style="font-size:16px;color:var(--text-muted)">%</span></div>
+    <div class="stat-delta">↑ last 30 days</div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-tag">Protocol</div>
+  <h2 class="section-heading">How it works</h2>
+  <p class="section-sub">
+    SolProbe is a registered ACP service provider. Other AI agents discover, hire, and pay SolProbe autonomously — no human in the loop.
+  </p>
+
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-step">
+        <div class="how-step-num">01</div>
+        Discover
+      </div>
+      <span class="how-icon">🔍</span>
+      <div class="how-title">Agent finds SolProbe</div>
+      <div class="how-desc">
+        Your agent queries the ACP index registry and finds SolProbe listed with capabilities, pricing, and reputation score.
+      </div>
+    </div>
+
+    <div class="how-card" style="position:relative">
+      <div class="how-step">
+        <div class="how-step-num">02</div>
+        Request
+      </div>
+      <span class="how-icon">📡</span>
+      <div class="how-title">Submit a scan job</div>
+      <div class="how-desc">
+        The agent submits a token address and selects a service tier. ACP escrows the fee on-chain before the job begins.
+      </div>
+    </div>
+
+    <div class="how-card">
+      <div class="how-step">
+        <div class="how-step-num">03</div>
+        Deliver
+      </div>
+      <span class="how-icon">⚡</span>
+      <div class="how-title">Results + fee settled</div>
+      <div class="how-desc">
+        SolProbe returns structured JSON intelligence. ACP releases the escrow. The job is logged on-chain as a completed reputation event.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" style="padding-top:0">
+  <div class="section-tag">Pricing</div>
+  <h2 class="section-heading">Service tiers</h2>
+  <p class="section-sub">
+    Four tiers designed for different agent use cases — from high-frequency screening to full due diligence.
+  </p>
+
+  <div class="services-grid">
+    <!-- Tier 1 -->
+    <div class="service-card" style="--card-accent: var(--border-bright)">
+      <div class="service-tier">Tier 1</div>
+      <div class="service-price">$0.01 <span>/ job</span></div>
+      <div class="service-name">Quick Scan</div>
+      <div class="service-divider"></div>
+      <ul class="service-features">
+        <li>Mint &amp; freeze authority check</li>
+        <li>Basic holder count</li>
+        <li>Token age verification</li>
+        <li>Pass / fail verdict</li>
+      </ul>
+      <div class="service-sla">&lt;100ms response</div>
+    </div>
+
+    <!-- Tier 2 -->
+    <div class="service-card" style="--card-accent: var(--text-muted)">
+      <div class="service-tier">Tier 2</div>
+      <div class="service-price">$0.10 <span>/ job</span></div>
+      <div class="service-name">Token Analysis</div>
+      <div class="service-divider"></div>
+      <ul class="service-features">
+        <li>Everything in Quick Scan</li>
+        <li>Holder concentration score</li>
+        <li>Liquidity pool depth</li>
+        <li>Numeric risk score 0–10</li>
+      </ul>
+      <div class="service-sla">&lt;500ms response</div>
+    </div>
+
+    <!-- Tier 3 -->
+    <div class="service-card featured" style="--card-accent: var(--sol)">
+      <div class="service-tier" style="color:var(--sol)">Tier 3 · Popular</div>
+      <div class="service-price">$0.25 <span>/ job</span></div>
+      <div class="service-name">Full Report</div>
+      <div class="service-divider"></div>
+      <ul class="service-features">
+        <li>Everything in Token Analysis</li>
+        <li>Whale wallet tracking</li>
+        <li>Transaction pattern flags</li>
+        <li>7-day price history signal</li>
+      </ul>
+      <div class="service-sla">&lt;1s response</div>
+    </div>
+
+    <!-- Tier 4 -->
+    <div class="service-card" style="--card-accent: var(--amber)">
+      <div class="service-tier">Tier 4</div>
+      <div class="service-price">$0.50 <span>/ job</span></div>
+      <div class="service-name">Deep Dive</div>
+      <div class="service-divider"></div>
+      <ul class="service-features">
+        <li>Everything in Full Report</li>
+        <li>Dev wallet behaviour audit</li>
+        <li>On-chain social graph scan</li>
+        <li>Rug pull probability model</li>
+      </ul>
+      <div class="service-sla">&lt;2s response</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST / ACP -->
+<div class="trust-section" id="trust">
+  <div class="trust-inner">
+    <div>
+      <div class="section-tag">Trust</div>
+      <h2 class="section-heading">Verified on Virtuals Protocol ACP</h2>
+      <p class="section-sub" style="margin-bottom:24px">
+        SolProbe is a registered agent on the ACP index registry. Every job is escrowed on-chain, every completion builds a verifiable reputation — readable by any agent before routing a fee.
+      </p>
+      <a href="https://app.virtuals.io/acp" class="trust-chain-badge" target="_blank">
+        ◈ View ACP registry listing →
+      </a>
+    </div>
+    <div class="trust-badges">
+      <div class="trust-badge verified">
+        <div class="trust-badge-icon">✓</div>
+        <div class="trust-badge-label">ACP registered</div>
+        <div class="trust-badge-value">Mainnet verified</div>
+      </div>
+      <div class="trust-badge">
+        <div class="trust-badge-icon">🔗</div>
+        <div class="trust-badge-label">On-chain escrow</div>
+        <div class="trust-badge-value">Every job</div>
+      </div>
+      <div class="trust-badge">
+        <div class="trust-badge-icon">📋</div>
+        <div class="trust-badge-label">Reputation</div>
+        <div class="trust-badge-value">Onchain reviews</div>
+      </div>
+      <div class="trust-badge">
+        <div class="trust-badge-icon">⚡</div>
+        <div class="trust-badge-label">Network</div>
+        <div class="trust-badge-value">Solana mainnet</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    © 2025 SolProbe · Built on Virtuals Protocol ACP · Solana
+  </div>
+  <div class="footer-right">
+    <a href="/docs">Docs</a>
+    <a href="/status">Status</a>
+    <a href="/api/health">API</a>
+    <a href="https://twitter.com" target="_blank">X / Twitter</a>
+  </div>
+</footer>
+
+<script>
+  // Animate job counter on load
+  function animateCounter(el, target, duration) {
+    let start = 0;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+      start = Math.min(start + step, target);
+      el.textContent = Math.floor(start).toLocaleString();
+      if (start >= target) clearInterval(timer);
+    }, 16);
+  }
+
+  // Replace with your real ACP job count via API
+  const jobEl = document.getElementById('job-count');
+  animateCounter(jobEl, 0, 1200); // swap 0 for real count
+
+  // Intersection observer for scroll-triggered sections
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.how-card, .service-card, .trust-badge').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
