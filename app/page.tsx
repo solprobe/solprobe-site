@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Terminal from "@/components/Terminal";
+import StatsStrip from "@/components/StatsStrip";
 
 // ── Service tier data ───────────────────────────────────────────────────────
 const TIERS = [
@@ -181,23 +182,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Stats strip ── */}
-      <div className="relative z-10 border-y border-border bg-bg2">
-        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border">
-          {[
-            { value: "—",     label: "Jobs completed",  color: "text-green" },
-            { value: "340ms", label: "Avg deep-scan latency", color: "text-sol" },
-            { value: "4",     label: "Service tiers",   color: "text-sol" },
-            { value: "99.9%", label: "Uptime",          color: "text-green" },
-          ].map(({ value, label, color }) => (
-            <div key={label} className="flex flex-col items-center justify-center py-8 px-6 gap-1">
-              <span className={`font-mono font-bold text-3xl ${color}`}>{value}</span>
-              <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-text-muted">
-                {label}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <StatsStrip />
 
       {/* ── How it works ── */}
       <section id="how" className="relative z-10 py-24 px-section-x">
