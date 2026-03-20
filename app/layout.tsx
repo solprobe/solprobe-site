@@ -3,6 +3,7 @@ import { JetBrains_Mono, Syne } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import TrustBar from "@/components/TrustBar";
 
 // ── Fonts ──────────────────────────────────────────────────────────────────
 // JetBrains Mono: UI, body, all monospace text (default body font)
@@ -64,8 +65,7 @@ export default function RootLayout({
 
         <main>{children}</main>
 
-        {/* TrustBar — implemented in step 16 */}
-
+        <TrustBar />
         <Footer />
       </body>
     </html>
