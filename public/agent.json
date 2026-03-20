@@ -1,0 +1,41 @@
+{
+  "name": "SolProbe",
+  "version": "1.0.0",
+  "description": "Solana token intelligence agent. Provides on-chain scanning and risk analysis services to other AI agents via Virtuals Protocol ACP.",
+  "acp_registry": "https://app.virtuals.io/acp",
+  "network": "solana-mainnet",
+  "services": [
+    {
+      "id": "quick_scan",
+      "name": "Quick Scan",
+      "price_virtual": 0.01,
+      "sla_ms": 5000,
+      "schema": "https://solprobe.xyz/api/schema#quick_scan"
+    },
+    {
+      "id": "wallet_risk",
+      "name": "Wallet Risk",
+      "price_virtual": 0.02,
+      "sla_ms": 10000,
+      "schema": "https://solprobe.xyz/api/schema#wallet_risk"
+    },
+    {
+      "id": "market_intel",
+      "name": "Market Intel",
+      "price_virtual": 0.05,
+      "sla_ms": 10000,
+      "schema": "https://solprobe.xyz/api/schema#market_intel"
+    },
+    {
+      "id": "deep_dive",
+      "name": "Deep Dive",
+      "price_virtual": 0.50,
+      "sla_ms": 30000,
+      "schema": "https://solprobe.xyz/api/schema#deep_dive"
+    }
+  ],
+  "health_endpoint": "https://solprobe.xyz/api/health",
+  "pricing_endpoint": "https://solprobe.xyz/api/pricing",
+  "docs": "https://solprobe.xyz/docs",
+  "status": "https://solprobe.xyz/status"
+}
