@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Syne } from "next/font/google";
 import "./globals.css";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 
 // ── Fonts ──────────────────────────────────────────────────────────────────
 // JetBrains Mono: UI, body, all monospace text (default body font)
@@ -58,16 +60,13 @@ export default function RootLayout({
       className={`${jetbrainsMono.variable} ${syne.variable}`}
     >
       <body>
-        {/* Nav — implemented in step 4 */}
-        {/* <Nav /> */}
+        <Nav />
 
         <main>{children}</main>
 
         {/* TrustBar — implemented in step 16 */}
-        {/* <TrustBar /> */}
 
-        {/* Footer — implemented in step 5 */}
-        {/* <Footer /> */}
+        <Footer />
       </body>
     </html>
   );
