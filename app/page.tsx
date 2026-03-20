@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Terminal from "@/components/Terminal";
 
 // ── Service tier data ───────────────────────────────────────────────────────
 const TIERS = [
@@ -160,81 +161,22 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Right — Terminal placeholder (replaced in step 7) */}
-          <div className="relative rounded-[8px] border border-border bg-bg2 overflow-hidden font-mono text-[12px]">
-            {/* Title bar */}
-            <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-bg3">
-              <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
-              <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
-              <span className="w-3 h-3 rounded-full bg-[#28c840]" />
-              <span className="absolute left-1/2 -translate-x-1/2 text-text-muted text-[11px]">
-                sol_deep_dive — token analysis
-              </span>
-            </div>
-            {/* Body */}
-            <div className="p-6 leading-7">
-              <div>
-                <span className="t-prompt">$ </span>
-                <span className="t-cmd">solprobe scan --deep So1Probe...xK9</span>
-              </div>
-              <div className="mt-3 t-obj">{"{"}</div>
-              <div className="pl-4">
-                <span className="t-key">&quot;token&quot;</span>
-                <span className="t-obj">: </span>
-                <span className="t-str">&quot;So1Probe...xK9&quot;</span>
-                <span className="t-obj">,</span>
-              </div>
-              <div className="pl-4">
-                <span className="t-key">&quot;risk_score&quot;</span>
-                <span className="t-obj">: </span>
-                <span className="t-num">2.4</span>
-                <span className="t-obj">,</span>
-              </div>
-              <div className="pl-4">
-                <span className="t-key">&quot;holder_concentration&quot;</span>
-                <span className="t-obj">: </span>
-                <span className="t-str">&quot;LOW&quot;</span>
-                <span className="t-obj">,</span>
-              </div>
-              <div className="pl-4">
-                <span className="t-key">&quot;liquidity_depth&quot;</span>
-                <span className="t-obj">: </span>
-                <span className="t-str">&quot;$284k&quot;</span>
-                <span className="t-obj">,</span>
-              </div>
-              <div className="pl-4">
-                <span className="t-key">&quot;mint_authority&quot;</span>
-                <span className="t-obj">: </span>
-                <span className="t-val">null</span>
-                <span className="t-obj">,</span>
-              </div>
-              <div className="pl-4">
-                <span className="t-key">&quot;freeze_authority&quot;</span>
-                <span className="t-obj">: </span>
-                <span className="t-val">null</span>
-                <span className="t-obj">,</span>
-              </div>
-              <div className="pl-4">
-                <span className="t-key">&quot;verdict&quot;</span>
-                <span className="t-obj">: </span>
-                <span className="t-str">&quot;SAFE&quot;</span>
-                <span className="t-obj">,</span>
-              </div>
-              <div className="pl-4">
-                <span className="t-key">&quot;latency_ms&quot;</span>
-                <span className="t-obj">: </span>
-                <span className="t-num">340</span>
-              </div>
-              <div className="t-obj">{"}"}</div>
-              <div className="mt-3">
-                <span className="t-comment"># Fee deducted: $0.50 USDC · ACP escrow released</span>
-              </div>
-              <div className="mt-1">
-                <span className="t-prompt">$ </span>
-                <span className="cursor-blink" />
-              </div>
-            </div>
-          </div>
+          {/* Right */}
+          <Terminal
+            service="sol_deep_dive — token analysis"
+            command="solprobe scan --deep So1Probe...xK9"
+            fee="$0.50 USDC"
+            response={{
+              token: "So1Probe...xK9",
+              risk_score: 2.4,
+              holder_concentration: "LOW",
+              liquidity_depth: "$284k",
+              mint_authority: null,
+              freeze_authority: null,
+              verdict: "SAFE",
+              latency_ms: 340,
+            }}
+          />
         </div>
       </section>
 
