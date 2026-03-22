@@ -11,7 +11,7 @@ export default function TrustBar({ jobCount = 0 }: TrustBarProps) {
         {/* ACP registry */}
         <div className="flex flex-col justify-center py-8 px-10">
           <Link
-            href="https://app.virtuals.io/acp"
+            href="https://app.virtuals.io/acp/agent/24456"
             target="_blank"
             rel="noopener noreferrer"
             className="no-underline group"
@@ -42,7 +42,7 @@ export default function TrustBar({ jobCount = 0 }: TrustBarProps) {
         {/* Reputation feed */}
         <div className="flex flex-col justify-center py-8 px-10">
           <Link
-            href="https://app.virtuals.io/acp"
+            href="https://app.virtuals.io/acp/agent/24456"
             target="_blank"
             rel="noopener noreferrer"
             className="no-underline group"

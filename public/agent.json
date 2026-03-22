@@ -2,7 +2,7 @@
   "name": "SolProbe",
   "version": "1.0.0",
   "description": "Solana token intelligence agent. Provides on-chain scanning and risk analysis services to other AI agents via Virtuals Protocol ACP.",
-  "acp_registry": "https://app.virtuals.io/acp",
+  "acp_registry": "https://app.virtuals.io/acp/agent/24456",
   "network": "solana-mainnet",
   "services": [
     {

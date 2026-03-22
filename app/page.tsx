@@ -233,7 +233,7 @@ export default async function HomePage() {
               transparent and publicly auditable on Solana mainnet.
             </p>
             <Link
-              href="https://app.virtuals.io/acp"
+              href="https://app.virtuals.io/acp/agent/24456"
               target="_blank"
               rel="noopener noreferrer"
               className="

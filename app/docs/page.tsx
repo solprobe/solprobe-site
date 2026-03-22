@@ -227,7 +227,7 @@ export default function DocsPage() {
             <div className="border-l-2 border-border pl-6 space-y-8">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="font-mono text-[11px] text-text-dim">2025-03-20</span>
+                  <span className="font-mono text-[11px] text-text-dim">2026-03-20</span>
                   <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-green border border-green/20 bg-green/5 px-2 py-0.5 rounded-full">
                     Launch
                   </span>
