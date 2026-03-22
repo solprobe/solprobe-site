@@ -7,7 +7,6 @@ import {
   Cell,
   Tooltip,
   ResponsiveContainer,
-  type TooltipProps,
 } from "recharts";
 import type { HealthCheck, ServiceStatus } from "@/lib/kv";
 
@@ -35,9 +34,15 @@ function buildSeries(history: HealthCheck[], key: ServiceKey): ChartPoint[] {
     }));
 }
 
-function ChartTooltip({ active, payload }: TooltipProps<number, string>) {
+// Plain interface avoids recharts generic typing issues with TooltipProps
+interface ChartTooltipProps {
+  active?:  boolean;
+  payload?: Array<{ payload: ChartPoint }>;
+}
+
+function ChartTooltip({ active, payload }: ChartTooltipProps) {
   if (!active || !payload?.length) return null;
-  const d = payload[0].payload as ChartPoint;
+  const d = payload[0].payload;
   return (
     <div className="bg-bg3 border border-border-bright rounded px-3 py-2 font-mono text-[11px]">
       <div className="text-text-muted">
@@ -99,16 +104,14 @@ export default function UptimeChart({ history }: Props) {
         return (
           <div key={key} className="bg-bg2 border border-border rounded-[6px] p-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="font-mono text-[11px] text-text">
-                {name}
-              </span>
+              <span className="font-mono text-[11px] text-text">{name}</span>
               <span className="font-mono text-[10px] text-text-muted uppercase tracking-[0.08em]">
                 {price}
               </span>
             </div>
             <ResponsiveContainer width="100%" height={72}>
               <BarChart data={series} barCategoryGap={2}>
-                <Bar dataKey="latency" radius={[2, 2, 0, 0]}>
+                <Bar dataKey="latency" radius={[2, 2, 0, 0]} isAnimationActive={false}>
                   {series.map((point, i) => (
                     <Cell
                       key={i}
