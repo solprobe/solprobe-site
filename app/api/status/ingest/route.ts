@@ -7,6 +7,8 @@ import {
 
 export async function POST(request: NextRequest): Promise<Response> {
   console.log('INGEST_SECRET set:', !!process.env.INGEST_SECRET);
+  console.log('Secret prefix:', process.env.INGEST_SECRET?.slice(0, 6));
+  console.log('Header received:', request.headers.get('authorization')?.slice(0, 13));
 
   // ── Auth ────────────────────────────────────────────────────────────────────
   const authHeader = request.headers.get("authorization");
