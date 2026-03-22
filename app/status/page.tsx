@@ -12,8 +12,8 @@ const SERVICES = [
   { id: "deep_dive",    name: "Deep Dive",    p50: 8200, p95: 18400, p99: 24000, uptime: 99.91 },
 ] as const;
 
-// 90 mock uptime bars — all green at launch
-const UPTIME_BARS = Array.from({ length: 90 }, (_, i) => ({
+// 2 mock uptime bars — all green at launch
+const UPTIME_BARS = Array.from({ length: 2 }, (_, i) => ({
   day: i,
   status: "up" as const,
 }));
@@ -55,17 +55,17 @@ export default function StatusPage() {
         </div>
       </section>
 
-      {/* 90-day uptime chart */}
+      {/* 2-day uptime chart */}
       <section className="relative z-10 py-12 px-section-x border-b border-border">
         <div className="max-w-8xl mx-auto">
           <h2 className="font-mono text-[11px] tracking-[0.12em] uppercase text-text-muted mb-4">
-            90-day uptime
+            2-day uptime
           </h2>
           <div className="flex items-end gap-0.5 h-10">
             {UPTIME_BARS.map(({ day, status }) => (
               <div
                 key={day}
-                title={`Day ${90 - day}`}
+                title={`Day ${2 - day}`}
                 className={`
                   flex-1 rounded-sm transition-opacity duration-200 hover:opacity-80
                   ${status === "up" ? "bg-green h-full" : "bg-amber h-1/2"}
@@ -74,7 +74,7 @@ export default function StatusPage() {
             ))}
           </div>
           <div className="flex justify-between font-mono text-[10px] text-text-dim mt-2">
-            <span>90 days ago</span>
+            <span>2 days ago</span>
             <span>Today</span>
           </div>
         </div>
