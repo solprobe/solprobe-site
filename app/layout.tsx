@@ -48,6 +48,11 @@ export const metadata: Metadata = {
     icon: "/logo-mark.svg",
     shortcut: "/logo-mark.svg",
   },
+  verification: {
+    other: {
+      "virtual-protocol-site-verification": "d8dc5275e7169b43bb5a6896b017c40b",
+    },
+  },
 };
 
 // ── Root Layout ────────────────────────────────────────────────────────────
