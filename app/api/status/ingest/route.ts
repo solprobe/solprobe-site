@@ -6,6 +6,8 @@ import {
 } from "@/lib/kv";
 
 export async function POST(request: NextRequest): Promise<Response> {
+  console.log('INGEST_SECRET set:', !!process.env.INGEST_SECRET);
+
   // ── Auth ────────────────────────────────────────────────────────────────────
   const authHeader = request.headers.get("authorization");
   const secret     = process.env.INGEST_SECRET;
