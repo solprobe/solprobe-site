@@ -706,3 +706,175 @@ Build in this sequence to avoid blocking dependencies:
 - Test all four API routes return valid JSON before moving to UI work.
 - `agent.json` must be publicly accessible at `/agent.json` with no auth.
 - Replace placeholder ACP URLs with real ones once the agent is registered.
+
+---
+
+## Status Page
+
+### Overview
+
+The status page (`/status`) displays live health data for all four SolProbe
+services. Data is pushed from the Hetzner VPS every 6 hours via a cron job
+and stored in Vercel KV (Redis). No external services required — KV is
+provisioned directly in the Vercel dashboard.
+
+### Architecture
+```
+Hetzner VPS cron (every 6 hours via PM2)
+    ↓
+/root/solprobe/scripts/health-check.sh
+    ↓ pings scan endpoints locally on VPS
+http://localhost:8000/scan/quick
+http://localhost:8000/scan/deep
+http://localhost:8000/wallet/risk
+http://localhost:8000/market/intel
+    ↓ POSTs result to Vercel
+https://solprobe.xyz/api/status/ingest
+    ↓ writes to Vercel KV
+    ↓
+app/api/status/route.ts reads from KV
+app/status/page.tsx renders live data
+```
+
+### New files to create
+```
+app/api/status/
+    ├── route.ts         # GET — reads from KV, returns health data
+    └── ingest/
+        └── route.ts     # POST — receives payload from VPS, writes to KV
+lib/
+    └── kv.ts            # Vercel KV read/write helpers
+app/status/
+    └── page.tsx         # Status page UI
+```
+
+### POST /api/status/ingest
+
+Receives health check payload from the VPS. Protected by `INGEST_SECRET`
+header — reject any request missing or not matching the secret.
+```typescript
+// Request headers
+Authorization: Bearer ${process.env.INGEST_SECRET}
+
+// Request body matches HealthCheck interface exactly
+// Returns 200 on success, 401 if secret missing/wrong, 400 if invalid
+```
+
+### GET /api/status
+
+Reads latest health check data from KV and returns it to the status page.
+```typescript
+// Response shape
+{
+  latest: HealthCheck | null,
+  history: HealthCheck[],     // last 7 days
+  incidents: Incident[]       // last 7 days
+}
+```
+
+### KV data structure
+```typescript
+// Key: "health:checks" — array of check results, newest first
+// Retain 7 days of data, auto-expire older entries
+
+interface HealthCheck {
+  timestamp: string          // ISO 8601
+  services: {
+    quick_scan:     ServiceStatus
+    token_analysis: ServiceStatus
+    full_report:    ServiceStatus
+    deep_dive:      ServiceStatus
+  }
+}
+
+interface ServiceStatus {
+  status: "ok" | "degraded" | "down"
+  latency_ms: number
+}
+
+interface Incident {
+  service: string
+  started_at: string         // ISO 8601
+  resolved_at: string | null // null if ongoing
+  status: "degraded" | "down"
+}
+```
+
+### Thresholds
+
+| Status   | Condition                                   |
+|----------|---------------------------------------------|
+| ok       | Response 200 and within SLA                 |
+| degraded | Response 200 but > SLA and < 3x SLA         |
+| down     | No response, non-200 status, or > 3x SLA    |
+
+SLA reference:
+- quick_scan: 100ms
+- token_analysis: 500ms
+- full_report: 1000ms
+- deep_dive: 2000ms
+
+### Status page UI sections
+
+1. **Overall banner** — single status across all services
+   (operational / degraded / down) with colour coding:
+   - Operational: `--green`
+   - Degraded: `--amber`
+   - Down: `--red`
+
+2. **Per-service grid** — 4 cards, one per tier, showing:
+   - Current status dot (coloured)
+   - Service name and price
+   - Uptime % calculated from 7-day history
+   - p50 latency from last check
+
+3. **7-day uptime chart** — one bar chart per service using recharts.
+   Designed for ~28 data points (4 checks/day x 7 days).
+   Green bars for ok, amber for degraded, red for down.
+
+4. **Incident log** — table of any degraded/down events with timestamp
+   and resolution time. Show "No incidents in the last 7 days" when empty.
+
+### Design rules
+
+Match the existing dark theme exactly — same CSS variables, fonts, and
+card style as homepage components. Status colours:
+- `--green` (#14F195) for operational
+- `--amber` (#FFB800) for degraded
+- `--red` (#E24B4A) for down
+
+Add `--red: #E24B4A` to the CSS variables in `app/globals.css`.
+Do not modify any other existing styles in that file.
+
+### lib/kv.ts helpers
+```typescript
+// All KV logic lives here. Never import @vercel/kv directly
+// in route handlers or components.
+
+export async function saveHealthCheck(check: HealthCheck): Promise<void>
+export async function getHealthChecks(days?: number): Promise<HealthCheck[]>
+export async function getLatestCheck(): Promise<HealthCheck | null>
+export async function saveIncident(incident: Incident): Promise<void>
+export async function getIncidents(days?: number): Promise<Incident[]>
+```
+
+### Environment variables
+
+Add to Vercel dashboard AND `.env.local`:
+- `INGEST_SECRET` — a long random string shared with the VPS
+
+### Build order for this feature
+
+Build in this exact sequence:
+
+1. `lib/kv.ts` — KV helpers first, everything else depends on this
+2. `app/api/status/ingest/route.ts` — POST endpoint
+3. `app/api/status/route.ts` — GET endpoint
+4. `app/status/page.tsx` — UI last, depends on the API route
+5. Add `--red` token to `app/globals.css`
+
+### Do not build
+
+- Any VPS-side scripts — these are set up manually on the server
+- `vercel.json` — no cron config needed
+- Any file not listed in the new files section above
