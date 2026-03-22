@@ -1,3 +1,22 @@
+import { Redis } from "@upstash/redis";
+
+// ── Client ────────────────────────────────────────────────────────────────────
+// Lazy singleton so missing env vars don't crash at import time
+let _redis: Redis | null = null;
+
+function getRedis(): Redis {
+  if (_redis) return _redis;
+  const url   = process.env.UPSTASH_REDIS_REST_URL_KV_REST_API_URL;
+  const token = process.env.UPSTASH_REDIS_REST_URL_KV_REST_API_TOKEN;
+  if (!url || !token) {
+    throw new Error(
+      "Missing UPSTASH_REDIS_REST_URL_KV_REST_API_URL or UPSTASH_REDIS_REST_URL_KV_REST_API_TOKEN",
+    );
+  }
+  _redis = new Redis({ url, token });
+  return _redis;
+}
+
 // ── Status types ──────────────────────────────────────────────────────────────
 export interface ServiceStatus {
   status: "ok" | "degraded" | "down";
@@ -16,7 +35,7 @@ export interface HealthCheck {
 
 export interface Incident {
   service:     string;
-  started_at:  string;       // ISO 8601
+  started_at:  string;        // ISO 8601
   resolved_at: string | null; // null = ongoing
   status:      "degraded" | "down";
 }
@@ -28,25 +47,22 @@ const INCIDENTS_KEY = "health:incidents";
 // 4 checks/day × 7 days
 const MAX_CHECKS = 28;
 
-// Lazy-load kv so missing env vars don't crash at import time
-async function getKv() {
-  const { kv } = await import("@vercel/kv");
-  return kv;
-}
-
 // ── Health checks ─────────────────────────────────────────────────────────────
 export async function saveHealthCheck(check: HealthCheck): Promise<void> {
-  const kv      = await getKv();
+  const redis    = getRedis();
   const existing = await getHealthChecks();
   const updated  = [check, ...existing].slice(0, MAX_CHECKS);
-  await kv.set(CHECKS_KEY, updated);
+  await redis.set(CHECKS_KEY, JSON.stringify(updated));
 }
 
 export async function getHealthChecks(days = 7): Promise<HealthCheck[]> {
   try {
-    const kv     = await getKv();
-    const checks = await kv.get<HealthCheck[]>(CHECKS_KEY);
-    if (!checks) return [];
+    const redis = getRedis();
+    const raw   = await redis.get<string>(CHECKS_KEY);
+    if (!raw) return [];
+
+    const checks: HealthCheck[] =
+      typeof raw === "string" ? (JSON.parse(raw) as HealthCheck[]) : (raw as unknown as HealthCheck[]);
 
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - days);
@@ -63,17 +79,20 @@ export async function getLatestCheck(): Promise<HealthCheck | null> {
 
 // ── Incidents ─────────────────────────────────────────────────────────────────
 export async function saveIncident(incident: Incident): Promise<void> {
-  const kv       = await getKv();
+  const redis    = getRedis();
   const existing = await getIncidents();
   const updated  = [incident, ...existing];
-  await kv.set(INCIDENTS_KEY, updated);
+  await redis.set(INCIDENTS_KEY, JSON.stringify(updated));
 }
 
 export async function getIncidents(days = 7): Promise<Incident[]> {
   try {
-    const kv       = await getKv();
-    const incidents = await kv.get<Incident[]>(INCIDENTS_KEY);
-    if (!incidents) return [];
+    const redis = getRedis();
+    const raw   = await redis.get<string>(INCIDENTS_KEY);
+    if (!raw) return [];
+
+    const incidents: Incident[] =
+      typeof raw === "string" ? (JSON.parse(raw) as Incident[]) : (raw as unknown as Incident[]);
 
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - days);
