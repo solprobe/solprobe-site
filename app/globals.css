@@ -8,31 +8,50 @@
    theme.extend.colors / fontFamily
 ───────────────────────────────────────────── */
 :root {
-  --bg:            #080b0f;
-  --bg2:           #0d1117;
-  --bg3:           #111820;
-  --border:        rgba(255, 255, 255, 0.07);
-  --border-bright: rgba(255, 255, 255, 0.14);
+  /* Backgrounds */
+  --bg:             #05070a;
+  --bg2:            #090d12;
+  --bg3:            #0e1420;
+  --bg-glass:       rgba(9,13,18,0.75);
+  --bg-card:        rgba(14,20,32,0.6);
 
-  --sol:       #9945FF;
-  --sol-dim:   rgba(153, 69, 255, 0.15);
-  --sol-glow:  rgba(153, 69, 255, 0.35);
+  /* Mesh gradient colours — used in background blobs only */
+  --mesh-purple:    rgba(120,40,255,0.12);
+  --mesh-green:     rgba(20,241,149,0.07);
+  --mesh-blue:      rgba(30,100,255,0.06);
 
-  --green:       #14F195;
-  --green-dim:   rgba(20, 241, 149, 0.12);
-  --green-glow:  rgba(20, 241, 149, 0.3);
+  /* Borders */
+  --border:         rgba(255,255,255,0.06);
+  --border-mid:     rgba(255,255,255,0.10);
+  --border-bright:  rgba(255,255,255,0.16);
+  --border-glow:    rgba(120,40,255,0.45);
+  --border-green:   rgba(20,241,149,0.35);
 
-  --amber:     #FFB800;
-  --amber-dim: rgba(255, 184, 0, 0.1);
+  /* Brand accents — one dominant purple, one signal green */
+  --sol:            #7828FF;
+  --sol-dim:        rgba(120,40,255,0.15);
+  --sol-glow:       rgba(120,40,255,0.4);
+  --sol-mid:        rgba(120,40,255,0.25);
+  --green:          #14F195;
+  --green-dim:      rgba(20,241,149,0.10);
+  --green-glow:     rgba(20,241,149,0.28);
+  --amber:          #F59E0B;
+  --amber-dim:      rgba(245,158,11,0.10);
+  --red:            #EF4444;
+  --red-dim:        rgba(239,68,68,0.12);
 
-  --red:       #E24B4A;
+  /* Text */
+  --text:           #f0f2f8;
+  --text-sub:       #9ba3b2;
+  --text-muted:     #4b5563;
+  --text-dim:       #1f2937;
 
-  --text:       #e8eaf0;
-  --text-muted: #6b7280;
-  --text-dim:   #374151;
-
-  --bg-glass:     rgba(13, 17, 23, 0.7);
-  --border-glow:  rgba(153, 69, 255, 0.3);
+  /* Terminal syntax */
+  --t-key:          #F59E0B;
+  --t-val:          #14F195;
+  --t-str:          #f87171;
+  --t-num:          #fb923c;
+  --t-prompt:       #7828FF;
 }
 
 /* ─────────────────────────────────────────────
@@ -53,7 +72,6 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  /* --font-mono and --font-sans are set by next/font in layout.tsx */
   font-family: var(--font-mono, "JetBrains Mono", monospace);
   font-size: 16px;
   line-height: 1.6;
@@ -63,35 +81,30 @@ body {
 }
 
 /* ─────────────────────────────────────────────
-   GRID OVERLAY — full-page fixed purple grid
-   Creates the data-terminal atmosphere
+   AMBIENT MESH GRADIENT — replaces flat grid
 ───────────────────────────────────────────── */
 body::before {
-  content: "";
+  content: '';
   position: fixed;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(153, 69, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(153, 69, 255, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 0%,   var(--mesh-purple) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 90% 100%, var(--mesh-green)  0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 50% 50%,  var(--mesh-blue)   0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
 /* ─────────────────────────────────────────────
-   SCANLINE TEXTURE — subtle CRT / terminal feel
+   NOISE TEXTURE — replaces scanlines
 ───────────────────────────────────────────── */
 body::after {
-  content: "";
+  content: '';
   position: fixed;
   inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.08) 2px,
-    rgba(0, 0, 0, 0.08) 4px
-  );
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  opacity: 0.4;
   pointer-events: none;
   z-index: 0;
 }
@@ -101,15 +114,9 @@ body::after {
 ───────────────────────────────────────────── */
 
 /* Pulsing live-status dot */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    box-shadow: 0 0 0 0 rgba(20, 241, 149, 0.4);
-  }
-  50% {
-    opacity: 0.7;
-    box-shadow: 0 0 0 4px rgba(20, 241, 149, 0);
-  }
+@keyframes pulse-dot {
+  0%, 100% { box-shadow: 0 0 0 0 var(--green-glow); opacity: 1; }
+  50%       { box-shadow: 0 0 0 5px transparent;     opacity: 0.75; }
 }
 
 /* Terminal blinking cursor */
@@ -119,24 +126,81 @@ body::after {
 }
 
 /* Scroll-triggered / entrance reveals */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes float-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Animated gradient text */
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
 }
 
 /* ─────────────────────────────────────────────
-   UTILITY CLASSES — not expressible in Tailwind
+   UTILITY CLASSES
 ───────────────────────────────────────────── */
+
+/* Dark frosted glass — standard */
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid var(--border-mid);
+}
+
+/* Dark frosted glass — brighter border for cards */
+.glass-bright {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--border-bright);
+}
+
+/* Hover glow border */
+.glow-border {
+  border: 1px solid var(--border-mid);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glow-border:hover {
+  border-color: var(--border-glow);
+  box-shadow: 0 0 24px var(--sol-dim), inset 0 0 24px rgba(120,40,255,0.03);
+}
+
+/* Gradient text — white to text-sub (headings) */
+.gradient-text {
+  background: linear-gradient(135deg, #fff 0%, var(--text-sub) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gradient text — brand green to purple (animates) */
+.gradient-text-brand {
+  background: linear-gradient(135deg, var(--green) 0%, var(--sol) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+
+/* Scroll-triggered reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* Live-status pulsing dot */
 .pulse-dot {
-  animation: pulse 2s ease-in-out infinite;
+  animation: pulse-dot 2s ease-in-out infinite;
 }
 
 /* Terminal blinking cursor block */
@@ -150,19 +214,6 @@ body::after {
   vertical-align: middle;
 }
 
-/* Scroll-triggered reveal — set initial state; JS via IntersectionObserver
-   adds the `.revealed` class to trigger the animation */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.reveal.revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 /* Section-tag decorative line prefix */
 .section-tag-line::before {
   content: "";
@@ -172,27 +223,12 @@ body::after {
   background: var(--sol);
 }
 
-/* Glass panel — dark frosted surface */
-.glass-panel {
-  background: var(--bg-glass);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border-bright);
-}
-
-/* Gradient text — green → purple */
-.gradient-text {
-  background: linear-gradient(135deg, var(--green), var(--sol));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 /* Terminal syntax token colours */
-.t-prompt { color: var(--sol); user-select: none; }
+.t-prompt { color: var(--t-prompt); user-select: none; }
 .t-cmd    { color: var(--text); }
 .t-comment{ color: var(--text-dim); }
-.t-key    { color: var(--amber); }
-.t-val    { color: var(--green); }
-.t-str    { color: #e06c75; }
-.t-num    { color: #d19a66; }
+.t-key    { color: var(--t-key); }
+.t-val    { color: var(--t-val); }
+.t-str    { color: var(--t-str); }
+.t-num    { color: var(--t-num); }
 .t-obj    { color: var(--text-muted); }
