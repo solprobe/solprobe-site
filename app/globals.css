@@ -30,6 +30,9 @@
   --text:       #e8eaf0;
   --text-muted: #6b7280;
   --text-dim:   #374151;
+
+  --bg-glass:     rgba(13, 17, 23, 0.7);
+  --border-glow:  rgba(153, 69, 255, 0.3);
 }
 
 /* ─────────────────────────────────────────────
@@ -167,6 +170,21 @@ body::after {
   width: 24px;
   height: 1px;
   background: var(--sol);
+}
+
+/* Glass panel — dark frosted surface */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-bright);
+}
+
+/* Gradient text — green → purple */
+.gradient-text {
+  background: linear-gradient(135deg, var(--green), var(--sol));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Terminal syntax token colours */

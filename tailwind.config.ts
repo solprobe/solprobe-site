@@ -31,6 +31,9 @@ const config: Config = {
         text:          "var(--text)",
         "text-muted":  "var(--text-muted)",
         "text-dim":    "var(--text-dim)",
+        // Glass / glow
+        "bg-glass":     "var(--bg-glass)",
+        "border-glow":  "var(--border-glow)",
         // Syntax highlighting (Terminal component)
         "t-str":  "#e06c75",
         "t-num":  "#d19a66",
