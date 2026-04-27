@@ -109,7 +109,7 @@ export default async function HomePage() {
 
             <h1 className="font-sans font-extrabold text-[clamp(40px,5vw,68px)] leading-[1.1] mb-6">
               Solana token intelligence{" "}
-              <span className="text-green">for AI agents</span>
+              <span className="gradient-text">for AI agents</span>
             </h1>
 
             <p className="font-mono font-light text-[14px] leading-relaxed text-text-muted mb-10 max-w-[480px]">
@@ -150,14 +150,16 @@ export default async function HomePage() {
             command="solprobe scan --deep So1Probe...xK9"
             fee="$0.50 USDC"
             response={{
+              schema_version: "2.0",
               token: "So1Probe...xK9",
-              risk_score: 2.4,
+              structural_risk_grade: "A",
+              signal: "BULLISH",
+              mint_authority_revoked: true,
+              lp_status: "LOCKED",
               holder_concentration: "LOW",
               liquidity_depth: "$284k",
-              mint_authority: null,
-              freeze_authority: null,
-              verdict: "SAFE",
-              latency_ms: 340,
+              recommendation: "CONSIDER",
+              latency_ms: 312,
             }}
           />
         </div>
@@ -259,6 +261,273 @@ export default async function HomePage() {
                 <div className="font-mono text-[11px] text-text-muted">{sub}</div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Section 6: For AI Agents ── */}
+      <section className="relative z-10 py-24 px-section-x border-t border-border">
+        <div className="max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          {/* Left — copy */}
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="section-tag-line" />
+              <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-sol">
+                A2A
+              </span>
+            </div>
+            <h2 className="font-sans font-bold text-[clamp(28px,3vw,40px)] mb-6">
+              Built for autonomous agents
+            </h2>
+            <p className="font-mono text-[13px] leading-relaxed text-text-muted mb-8">
+              SolProbe is registered on Virtuals ACP. Any compatible agent
+              discovers it via the registry, escrows a fee on-chain, and receives
+              structured JSON — no human in the loop.
+            </p>
+            <ul className="space-y-3 mb-8">
+              {[
+                "Deterministic output — same input always returns same schema",
+                "Schema-versioned responses — breaking changes are versioned",
+                "On-chain job log — every call is a permanent reputation event",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 font-mono text-[12px] text-text-muted">
+                  <span className="text-green mt-0.5 shrink-0">→</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/agent.json"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+                inline-flex items-center gap-2
+                font-mono text-[12px] tracking-[0.06em] uppercase
+                text-sol no-underline
+                transition-colors duration-200 hover:text-text
+              "
+            >
+              View agent.json →
+            </Link>
+          </div>
+
+          {/* Right — ACP flow terminal */}
+          <div className="relative rounded-[8px] border border-border bg-bg2 overflow-hidden font-mono text-[12px]">
+            <div className="relative flex items-center px-4 py-3 border-b border-border bg-bg3">
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
+                <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
+                <span className="w-3 h-3 rounded-full bg-[#28c840]" />
+              </div>
+              <span className="absolute left-1/2 -translate-x-1/2 text-text-muted text-[11px]">
+                ACP call flow
+              </span>
+            </div>
+            <div className="p-6 leading-7 space-y-1">
+              <div><span className="t-comment"># 1. Discover</span></div>
+              <div><span className="t-prompt">$ </span><span className="t-cmd">acp.registry.find(&quot;SolProbe&quot;)</span></div>
+              <div className="pl-4"><span className="t-obj">{"{"}</span><span className="t-key">&quot;agent&quot;</span><span className="t-obj">: </span><span className="t-str">&quot;SolProbe&quot;</span><span className="t-obj">, </span><span className="t-key">&quot;tiers&quot;</span><span className="t-obj">: </span><span className="t-num">3</span><span className="t-obj">{"}"}</span></div>
+              <div className="mt-3"><span className="t-comment"># 2. Escrow &amp; request</span></div>
+              <div><span className="t-prompt">$ </span><span className="t-cmd">acp.job.create(tier=&quot;sol_deep_dive&quot;, token=addr)</span></div>
+              <div className="pl-4"><span className="t-key">&quot;escrow_tx&quot;</span><span className="t-obj">: </span><span className="t-str">&quot;5xK9...mQ&quot;</span></div>
+              <div className="mt-3"><span className="t-comment"># 3. Receive structured JSON</span></div>
+              <div><span className="t-key">&quot;structural_risk_grade&quot;</span><span className="t-obj">: </span><span className="t-str">&quot;A&quot;</span></div>
+              <div><span className="t-key">&quot;signal&quot;</span><span className="t-obj">: </span><span className="t-str">&quot;BULLISH&quot;</span></div>
+              <div><span className="t-key">&quot;recommendation&quot;</span><span className="t-obj">: </span><span className="t-str">&quot;CONSIDER&quot;</span></div>
+              <div className="mt-3"><span className="t-comment"># ACP releases escrow. Job logged on-chain.</span></div>
+              <div className="mt-1"><span className="t-prompt">$ </span><span className="cursor-blink" /></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Section 7: Intelligence Stack ── */}
+      <section className="relative z-10 py-24 px-section-x border-t border-border">
+        <div className="max-w-8xl mx-auto">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="section-tag-line" />
+            <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-sol">
+              Data sources
+            </span>
+          </div>
+          <h2 className="font-sans font-bold text-[clamp(28px,3vw,40px)] mb-12">
+            Intelligence stack
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-border rounded-[6px] overflow-hidden border border-border">
+            {[
+              {
+                source: "Helius",
+                layer: "On-chain",
+                signals: ["Authority flags", "LP burn status", "Holder distribution"],
+                color: "var(--sol)",
+              },
+              {
+                source: "RugCheck",
+                layer: "Historical",
+                signals: ["Rug history", "Bundled launch detection", "Risk score"],
+                color: "var(--amber)",
+              },
+              {
+                source: "DexScreener",
+                layer: "Market",
+                signals: ["Liquidity depth", "Price & volume", "Buy/sell ratio"],
+                color: "var(--green)",
+              },
+              {
+                source: "Birdeye",
+                layer: "ATH / Price",
+                signals: ["All-time high", "Short-term intervals", "Price momentum"],
+                color: "var(--sol)",
+              },
+            ].map(({ source, layer, signals, color }) => (
+              <div key={source} className="bg-bg2 p-7 flex flex-col gap-4 hover:bg-bg3 transition-colors duration-200">
+                <div>
+                  <span
+                    className="font-mono text-[10px] tracking-[0.12em] uppercase mb-1 block"
+                    style={{ color: "var(--text-muted)" }}
+                  >
+                    {layer}
+                  </span>
+                  <div
+                    className="font-sans font-bold text-[18px]"
+                    style={{ color }}
+                  >
+                    {source}
+                  </div>
+                </div>
+                <ul className="space-y-1.5">
+                  {signals.map((s) => (
+                    <li key={s} className="flex items-start gap-2 font-mono text-[11px] text-text-muted">
+                      <span className="text-green mt-0.5 shrink-0">→</span>
+                      {s}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Section 8: Chat Teaser ── */}
+      <section className="relative z-10 py-24 px-section-x border-t border-border">
+        <div className="max-w-8xl mx-auto">
+          {/* Outer glass panel */}
+          <div
+            className="glass-panel rounded-[12px] overflow-hidden relative"
+            style={{ boxShadow: "0 0 80px rgba(153,69,255,0.2)" }}
+          >
+            {/* Dim overlay — reinforces coming-soon state */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 z-10"
+              style={{ background: "rgba(8,11,15,0.25)" }}
+            />
+
+            {/* Phase 2 badge */}
+            <div className="absolute top-6 right-6 z-20">
+              <span
+                className="font-mono text-[10px] tracking-[0.08em] uppercase
+                  text-amber border border-amber/30 bg-amber-dim
+                  px-2.5 py-1 rounded-[4px]"
+              >
+                Phase 2
+              </span>
+            </div>
+
+            <div className="relative z-20 p-10 lg:p-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Left — copy */}
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="section-tag-line" />
+                  <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-sol">
+                    Coming soon
+                  </span>
+                </div>
+                <h2 className="font-sans font-extrabold text-[clamp(28px,3vw,44px)] leading-[1.1] mb-6">
+                  Research and trade from one interface
+                </h2>
+                <p className="font-mono font-light text-[13px] leading-relaxed text-text-muted mb-8">
+                  Connect your Solana wallet, run risk intelligence on any
+                  token, and execute swaps — all in one place. Coming soon.
+                </p>
+                <Link
+                  href="https://x.com/solprobeai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="
+                    inline-flex items-center gap-2
+                    font-mono text-[12px] font-medium tracking-[0.08em] uppercase
+                    px-6 py-3 rounded-[4px] no-underline
+                    bg-green text-bg
+                    transition-all duration-200 hover:shadow-green-glow-lg
+                  "
+                >
+                  Notify me →
+                </Link>
+              </div>
+
+              {/* Right — static mock UI */}
+              <div className="rounded-[8px] border border-border bg-bg2 overflow-hidden font-mono text-[12px]">
+                {/* Mock nav bar */}
+                <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-bg3">
+                  <span className="font-mono text-[12px] font-bold tracking-[0.06em]">
+                    ◉ SolProbe Chat
+                  </span>
+                  <span
+                    className="font-mono text-[11px] tracking-[0.04em]"
+                    style={{ color: "var(--green)" }}
+                  >
+                    Connect Wallet
+                  </span>
+                </div>
+
+                {/* Chat body */}
+                <div className="p-5 space-y-4">
+                  {/* User message */}
+                  <div className="flex justify-end">
+                    <div className="bg-bg3 border border-border rounded-[6px] px-4 py-2.5 max-w-[80%]">
+                      <span className="text-text text-[12px]">Is BONK safe to buy right now?</span>
+                    </div>
+                  </div>
+
+                  {/* Agent response card */}
+                  <div className="rounded-[6px] border border-border bg-bg overflow-hidden">
+                    <div className="flex items-center gap-3 px-4 py-2 border-b border-border bg-bg3">
+                      <span className="text-[10px] tracking-[0.08em] uppercase text-text-muted">sol_deep_dive</span>
+                      <span className="text-sol text-[10px]">·</span>
+                      <span className="text-[10px] text-amber">$0.50</span>
+                      <span className="text-sol text-[10px]">·</span>
+                      <span className="text-[10px] text-text-muted">312ms</span>
+                    </div>
+                    <div className="px-4 py-3 space-y-1 text-[11px]">
+                      <div><span className="t-key">&quot;structural_risk_grade&quot;</span><span className="t-obj">: </span><span className="t-str">&quot;A&quot;</span></div>
+                      <div><span className="t-key">&quot;signal&quot;</span><span className="t-obj">: </span><span className="t-str">&quot;BULLISH&quot;</span></div>
+                      <div><span className="t-key">&quot;mint_authority_revoked&quot;</span><span className="t-obj">: </span><span className="t-val">true</span> <span className="text-green">✓</span></div>
+                      <div><span className="t-key">&quot;lp_status&quot;</span><span className="t-obj">: </span><span className="t-str">&quot;NOT_APPLICABLE (Meteora CLMM)&quot;</span> <span className="text-green">✓</span></div>
+                      <div><span className="t-key">&quot;recommendation&quot;</span><span className="t-obj">: </span><span className="t-str">&quot;CONSIDER&quot;</span></div>
+                    </div>
+                    <div className="px-4 py-2 border-t border-border">
+                      <span
+                        className="font-mono text-[11px] tracking-[0.04em] uppercase
+                          border border-border rounded-[4px] px-3 py-1
+                          opacity-40 cursor-not-allowed"
+                        style={{ color: "var(--green)" }}
+                      >
+                        Swap BONK →
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Input bar */}
+                  <div className="flex items-center gap-3 rounded-[6px] border border-border bg-bg px-4 py-3">
+                    <span className="text-text-muted text-[12px] flex-1">Ask about any Solana token...</span>
+                    <span className="text-text-muted text-[11px] border border-border rounded-[3px] px-1.5 py-0.5">⏎</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
