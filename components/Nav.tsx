@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { href: "/docs",      label: "Docs" },
   { href: "/status",    label: "Status" },
   // /token — reserved for $PROBE token launch, not built yet
+  // /chat  — reserved for Phase 2 chat interface, not built yet
 ] as const;
 
 export default function Nav() {
@@ -64,8 +65,9 @@ export default function Nav() {
 
       {/* CTA */}
       <Link
-        href="/services"
+        href="/chat"
         className="
+          inline-flex items-center gap-2
           font-mono text-[12px] font-medium tracking-[0.08em] uppercase
           text-green border border-green/30 bg-green-dim
           px-5 py-2 rounded-[4px] no-underline
@@ -73,7 +75,16 @@ export default function Nav() {
           hover:bg-green/20 hover:shadow-green-glow-sm
         "
       >
-        View services
+        Launch App →
+        <span
+          className="
+            font-mono text-[9px] tracking-[0.06em] uppercase
+            text-amber border border-amber/30 bg-amber-dim
+            px-1.5 py-0.5 rounded-[3px]
+          "
+        >
+          Soon
+        </span>
       </Link>
     </nav>
   );
