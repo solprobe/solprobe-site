@@ -19,9 +19,12 @@ export default function Terminal({ command, service, fee, response }: TerminalPr
   const entries = Object.entries(response);
 
   return (
-    <div className="relative rounded-[8px] border border-border bg-bg2 overflow-hidden font-mono text-[12px]">
+    <div
+      className="relative rounded-2xl overflow-hidden font-mono text-[12px] glass-bright"
+      style={{ boxShadow: "0 0 60px var(--sol-dim), 0 8px 32px rgba(0,0,0,0.4)" }}
+    >
       {/* Title bar */}
-      <div className="relative flex items-center px-4 py-3 border-b border-border bg-bg3">
+      <div className="flex items-center px-4 py-3 border-b border-border relative">
         <div className="flex items-center gap-2">
           <span className="w-3 h-3 rounded-full bg-[#ff5f57]" />
           <span className="w-3 h-3 rounded-full bg-[#febc2e]" />
