@@ -10,7 +10,7 @@ interface StatsStripProps {
 
 const STATIC_CELLS: StatCell[] = [
   { value: "340ms", label: "Avg deep-scan latency", color: "text-sol" },
-  { value: "4",     label: "Service tiers",          color: "text-sol" },
+  { value: "3",     label: "Service tiers",          color: "text-sol" },
   { value: "99.9%", label: "Uptime",                 color: "text-green" },
 ];
 
