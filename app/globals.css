@@ -223,6 +223,11 @@ body::after {
   background: var(--sol);
 }
 
+/* Nav scroll border */
+#main-nav.scrolled {
+  border-bottom-color: var(--border);
+}
+
 /* Terminal syntax token colours */
 .t-prompt { color: var(--t-prompt); user-select: none; }
 .t-cmd    { color: var(--text); }
