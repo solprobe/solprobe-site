@@ -4,18 +4,24 @@ const STEPS = [
     icon: "⬡",
     title: "Discover",
     body: "Agent queries the ACP registry, finds SolProbe with capabilities, pricing, and reputation score attached.",
+    accentColor: "var(--violet)",
+    accentBg: "rgba(139,92,246,0.10)",
   },
   {
     num: "02",
     icon: "⇄",
     title: "Request",
     body: "Agent submits token address + tier selection. ACP escrows the fee on-chain before the job starts.",
+    accentColor: "var(--cyan)",
+    accentBg: "rgba(6,182,212,0.08)",
   },
   {
     num: "03",
     icon: "✓",
     title: "Deliver",
     body: "SolProbe returns structured JSON. ACP releases escrow. Job is logged on-chain as a completed reputation event.",
+    accentColor: "var(--emerald)",
+    accentBg: "rgba(16,185,129,0.08)",
   },
 ] as const;
 
@@ -26,7 +32,7 @@ export default function HowItWorks() {
         {/* Section tag */}
         <div className="flex items-center gap-3 mb-4">
           <div className="section-tag-line" />
-          <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-sol">
+          <span className="font-body text-[11px] tracking-[0.12em] uppercase text-violet">
             How it works
           </span>
         </div>
@@ -34,22 +40,37 @@ export default function HowItWorks() {
           Three steps to token intelligence
         </h2>
 
-        {/* Cards — gap-px bg-border divider technique */}
-        <div className="grid grid-cols-1 md:grid-cols-3 bg-border gap-px rounded-2xl overflow-hidden border border-border">
-          {STEPS.map(({ num, icon, title, body }) => (
+        {/* Feature cards grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {STEPS.map(({ num, icon, title, body, accentColor, accentBg }) => (
             <div
               key={num}
-              className="glass-bright glow-border p-8 flex flex-col gap-4 reveal"
-              style={{ border: "none", borderRadius: "0" }}
+              className="feature-card p-8 flex flex-col gap-4 reveal"
             >
-              <div className="flex items-center gap-3">
-                <span className="font-mono text-[11px] tracking-[0.1em] text-text-dim">
+              {/* Icon */}
+              <div
+                className="feature-icon w-12 h-12 rounded-2xl flex items-center justify-center text-2xl"
+                style={{ background: accentBg, border: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <span style={{ color: accentColor }}>{icon}</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span
+                  className="font-mono text-[10px] tracking-[0.12em]"
+                  style={{ color: "var(--text-muted)" }}
+                >
                   {num}
                 </span>
-                <span className="text-sol text-xl">{icon}</span>
+                <h3
+                  className="font-sans font-bold text-[18px]"
+                  style={{ color: "var(--text)" }}
+                >
+                  {title}
+                </h3>
               </div>
-              <h3 className="font-sans font-bold text-[18px]">{title}</h3>
-              <p className="font-mono text-[12px] leading-relaxed text-text-muted">
+
+              <p className="font-body text-[13px] leading-relaxed text-text-sub">
                 {body}
               </p>
             </div>

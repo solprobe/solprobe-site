@@ -5,7 +5,7 @@ interface ServiceCardProps {
   features: readonly string[];
   sla: string;
   featured?: boolean;
-  accentColor?: string;
+  icon?: string;
 }
 
 export default function ServiceCard({
@@ -15,81 +15,111 @@ export default function ServiceCard({
   features,
   sla,
   featured = false,
+  icon = "◈",
 }: ServiceCardProps) {
   return (
     <div
       className={`
-        relative flex flex-col rounded-2xl p-7
-        glass-bright glow-border
+        feature-card
+        relative flex flex-col p-10
         overflow-hidden
-        transition-all duration-200
-        ${featured ? "shadow-glow-card" : ""}
+        ${featured ? "shadow-lift-violet" : ""}
       `}
     >
-      {/* Top gradient accent bar */}
-      <div
-        className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl"
-        style={{
-          background: featured
-            ? "linear-gradient(90deg, var(--sol), var(--green))"
-            : "linear-gradient(90deg, var(--sol-dim), transparent)",
-        }}
-      />
-
-      {/* Featured radial glow inside card */}
+      {/* Featured gradient top accent */}
       {featured && (
         <div
-          className="absolute top-0 left-0 right-0 h-40 pointer-events-none"
+          className="absolute top-0 left-0 right-0 h-px"
+          style={{
+            background: "linear-gradient(90deg, var(--violet), var(--cyan))",
+          }}
+        />
+      )}
+
+      {/* Featured inner glow */}
+      {featured && (
+        <div
+          className="absolute top-0 left-0 right-0 h-48 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse 100% 60% at 50% 0%, rgba(120,40,255,0.08) 0%, transparent 70%)",
+              "radial-gradient(ellipse 100% 60% at 50% 0%, rgba(139,92,246,0.08) 0%, transparent 70%)",
           }}
         />
       )}
 
       {featured && (
-        <div className="absolute top-3 right-3 font-mono text-[10px] tracking-[0.1em] uppercase text-sol border border-sol/30 bg-sol-dim px-2 py-0.5 rounded-full z-10">
+        <div
+          className="absolute top-4 right-4 font-body text-[10px] tracking-[0.12em] uppercase px-3 py-1 rounded-full z-10"
+          style={{
+            color: "var(--violet)",
+            border: "1px solid rgba(139,92,246,0.30)",
+            background: "rgba(139,92,246,0.10)",
+          }}
+        >
           Popular
         </div>
       )}
 
-      <div className="font-mono text-[10px] tracking-[0.12em] uppercase text-text-muted mb-2 mt-2">
+      {/* Icon */}
+      <div
+        className="feature-icon w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-6"
+        style={{
+          background: featured
+            ? "rgba(139,92,246,0.12)"
+            : "rgba(255,255,255,0.04)",
+          border: "1px solid rgba(255,255,255,0.08)",
+        }}
+      >
+        {icon}
+      </div>
+
+      <div className="font-body text-[10px] tracking-[0.12em] uppercase text-text-muted mb-2">
         Tier {tier}
       </div>
 
       <div
-        className={`font-mono font-bold text-[40px] leading-none mb-1 ${
-          featured ? "gradient-text-brand" : "text-text"
-        }`}
+        className="font-sans font-bold text-[44px] leading-none mb-1"
+        style={{
+          color: featured ? undefined : "var(--text)",
+          background: featured
+            ? "linear-gradient(135deg, var(--violet), var(--cyan))"
+            : undefined,
+          WebkitBackgroundClip: featured ? "text" : undefined,
+          WebkitTextFillColor: featured ? "transparent" : undefined,
+          backgroundClip: featured ? "text" : undefined,
+        }}
       >
         {price}
       </div>
 
-      <div className="font-sans font-bold text-[17px] text-text mb-4">{name}</div>
+      <div className="font-sans font-bold text-[18px] text-text mb-5">{name}</div>
 
-      <div className="h-px bg-border mb-4" />
+      <div className="h-px mb-5" style={{ background: "rgba(255,255,255,0.05)" }} />
 
-      <ul className="flex flex-col gap-[6px] mb-6 flex-1">
+      <ul className="flex flex-col gap-2 mb-7 flex-1">
         {features.map((f) => (
           <li
             key={f}
             className="flex items-start gap-2 font-mono text-[12px] text-text-sub leading-[1.8]"
           >
-            <span className="text-green mt-0.5 shrink-0">→</span>
+            <span className="shrink-0 mt-0.5" style={{ color: "var(--emerald)" }}>→</span>
             {f}
           </li>
         ))}
       </ul>
 
       <div
-        className="
-          inline-flex items-center gap-2 self-start
-          font-mono text-[11px] text-green
-          border border-border-green bg-green-dim
-          px-3 py-1 rounded-full
-        "
+        className="inline-flex items-center gap-2 self-start font-body text-[11px] px-3 py-1 rounded-full"
+        style={{
+          color: "var(--emerald)",
+          border: "1px solid rgba(16,185,129,0.30)",
+          background: "rgba(16,185,129,0.08)",
+        }}
       >
-        <span className="pulse-dot w-1.5 h-1.5 rounded-full bg-green inline-block shrink-0" />
+        <span
+          className="pulse-dot w-1.5 h-1.5 rounded-full shrink-0 inline-block"
+          style={{ background: "var(--emerald)" }}
+        />
         SLA {sla}
       </div>
     </div>

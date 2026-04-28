@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Syne } from "next/font/google";
+import { JetBrains_Mono, Bricolage_Grotesque, Inter } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -8,7 +8,7 @@ import ScrollEffects from "@/components/ScrollEffects";
 import { getJobCount } from "@/lib/acp";
 
 // ── Fonts ──────────────────────────────────────────────────────────────────
-// JetBrains Mono: UI, body, all monospace text (default body font)
+// JetBrains Mono: data, metrics, code, terminal text
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["300", "400", "500", "700"],
@@ -16,11 +16,19 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-// Syne: display/headings only
-const syne = Syne({
+// Bricolage Grotesque: display headings (32px+)
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["700", "800"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+// Inter: body copy, UI labels, nav links
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-body",
   display: "swap",
 });
 
@@ -67,7 +75,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${jetbrainsMono.variable} ${syne.variable}`}
+      className={`${jetbrainsMono.variable} ${bricolage.variable} ${inter.variable}`}
     >
       <body>
         <ScrollEffects />

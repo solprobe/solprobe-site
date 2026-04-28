@@ -3,55 +3,79 @@
 @tailwind utilities;
 
 /* ─────────────────────────────────────────────
-   DESIGN TOKENS — CSS custom properties
-   Mirror these in tailwind.config.ts under
-   theme.extend.colors / fontFamily
+   SYNAPSE DESIGN TOKENS — CSS custom properties
+   Mirror these in tailwind.config.ts
 ───────────────────────────────────────────── */
 :root {
-  /* Backgrounds */
-  --bg:             #05070a;
-  --bg2:            #090d12;
-  --bg3:            #0e1420;
-  --bg-glass:       rgba(9,13,18,0.75);
-  --bg-card:        rgba(14,20,32,0.6);
+  /* Backgrounds — Vantablack foundation */
+  --bg:             #030303;
+  --bg2:            #080808;
+  --bg3:            #0a0a0a;
+  --bg-glass:       rgba(10,10,10,0.70);
+  --bg-card:        rgba(10,10,10,0.50);
+  --bg-code:        rgba(8,8,8,0.80);
 
-  /* Mesh gradient colours — used in background blobs only */
-  --mesh-purple:    rgba(120,40,255,0.12);
-  --mesh-green:     rgba(20,241,149,0.07);
-  --mesh-blue:      rgba(30,100,255,0.06);
+  /* Accent — Violet / Cyan / Emerald */
+  --violet:         #8B5CF6;
+  --violet-dim:     rgba(139,92,246,0.15);
+  --violet-glow:    rgba(139,92,246,0.40);
+  --violet-mid:     rgba(139,92,246,0.25);
+  --cyan:           #06B6D4;
+  --cyan-dim:       rgba(6,182,212,0.12);
+  --cyan-glow:      rgba(6,182,212,0.35);
+  --emerald:        #10B981;
+  --emerald-dim:    rgba(16,185,129,0.12);
+  --emerald-glow:   rgba(16,185,129,0.30);
 
-  /* Borders */
-  --border:         rgba(255,255,255,0.06);
-  --border-mid:     rgba(255,255,255,0.10);
-  --border-bright:  rgba(255,255,255,0.16);
-  --border-glow:    rgba(120,40,255,0.45);
-  --border-green:   rgba(20,241,149,0.35);
-
-  /* Brand accents — one dominant purple, one signal green */
-  --sol:            #7828FF;
-  --sol-dim:        rgba(120,40,255,0.15);
-  --sol-glow:       rgba(120,40,255,0.4);
-  --sol-mid:        rgba(120,40,255,0.25);
-  --green:          #14F195;
-  --green-dim:      rgba(20,241,149,0.10);
-  --green-glow:     rgba(20,241,149,0.28);
+  /* Legacy compat aliases (used in status page + terminal) */
+  --sol:            #8B5CF6;
+  --sol-dim:        rgba(139,92,246,0.15);
+  --sol-glow:       rgba(139,92,246,0.40);
+  --sol-mid:        rgba(139,92,246,0.25);
+  --green:          #10B981;
+  --green-dim:      rgba(16,185,129,0.12);
+  --green-glow:     rgba(16,185,129,0.30);
   --amber:          #F59E0B;
   --amber-dim:      rgba(245,158,11,0.10);
   --red:            #EF4444;
   --red-dim:        rgba(239,68,68,0.12);
 
-  /* Text */
-  --text:           #f0f2f8;
-  --text-sub:       #9ba3b2;
-  --text-muted:     #4b5563;
-  --text-dim:       #1f2937;
+  /* Borders — always low-opacity white */
+  --border:         rgba(255,255,255,0.05);
+  --border-mid:     rgba(255,255,255,0.08);
+  --border-bright:  rgba(255,255,255,0.12);
+  --border-glow:    rgba(139,92,246,0.45);
+  --border-cyan:    rgba(6,182,212,0.35);
+  --border-green:   rgba(16,185,129,0.35);
 
-  /* Terminal syntax */
+  /* Ambient blobs */
+  --mesh-violet:    rgba(139,92,246,0.10);
+  --mesh-cyan:      rgba(6,182,212,0.06);
+  --mesh-emerald:   rgba(16,185,129,0.05);
+  /* legacy aliases */
+  --mesh-purple:    rgba(139,92,246,0.10);
+  --mesh-green:     rgba(16,185,129,0.05);
+  --mesh-blue:      rgba(6,182,212,0.06);
+
+  /* Text */
+  --text:           #f8fafc;
+  --text-sub:       #94a3b8;
+  --text-muted:     #475569;
+  --text-dim:       #1e293b;
+
+  /* Terminal / code syntax */
   --t-key:          #F59E0B;
-  --t-val:          #14F195;
+  --t-val:          #10B981;
   --t-str:          #f87171;
   --t-num:          #fb923c;
-  --t-prompt:       #7828FF;
+  --t-prompt:       #8B5CF6;
+  --t-violet:       #a78bfa;
+  --t-cyan:         #22d3ee;
+  --t-emerald:      #34d399;
+  --t-comment:      #475569;
+
+  /* Easing */
+  --ease-snappy:    cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 /* ─────────────────────────────────────────────
@@ -72,7 +96,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-mono, "JetBrains Mono", monospace);
+  font-family: var(--font-body, var(--font-mono, "Inter", sans-serif));
   font-size: 16px;
   line-height: 1.6;
   overflow-x: hidden;
@@ -81,22 +105,22 @@ body {
 }
 
 /* ─────────────────────────────────────────────
-   AMBIENT MESH GRADIENT — replaces flat grid
+   AMBIENT ORBS — replaces flat mesh gradient
 ───────────────────────────────────────────── */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 50% at 10% 0%,   var(--mesh-purple) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 90% 100%, var(--mesh-green)  0%, transparent 55%),
-    radial-gradient(ellipse 50% 60% at 50% 50%,  var(--mesh-blue)   0%, transparent 70%);
+    radial-gradient(ellipse 60% 40% at 15% 5%,   var(--mesh-violet)  0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 85% 95%,  var(--mesh-cyan)    0%, transparent 55%),
+    radial-gradient(ellipse 40% 50% at 50% 50%,  var(--mesh-emerald) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
 /* ─────────────────────────────────────────────
-   NOISE TEXTURE — replaces scanlines
+   NOISE TEXTURE
 ───────────────────────────────────────────── */
 body::after {
   content: '';
@@ -104,7 +128,7 @@ body::after {
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
   background-size: 256px 256px;
-  opacity: 0.4;
+  opacity: 0.35;
   pointer-events: none;
   z-index: 0;
 }
@@ -115,8 +139,8 @@ body::after {
 
 /* Pulsing live-status dot */
 @keyframes pulse-dot {
-  0%, 100% { box-shadow: 0 0 0 0 var(--green-glow); opacity: 1; }
-  50%       { box-shadow: 0 0 0 5px transparent;     opacity: 0.75; }
+  0%, 100% { box-shadow: 0 0 0 0 var(--emerald-glow); opacity: 1; }
+  50%       { box-shadow: 0 0 0 5px transparent;       opacity: 0.75; }
 }
 
 /* Terminal blinking cursor */
@@ -131,17 +155,47 @@ body::after {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Animated gradient text */
+/* Animated gradient text (legacy) */
 @keyframes gradient-shift {
   0%, 100% { background-position: 0% 50%; }
   50%       { background-position: 100% 50%; }
+}
+
+/* Shimmer text — white-to-cyan sweep */
+@keyframes shimmer-sweep {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+
+/* Conic gradient spin — shiny border button */
+@keyframes conic-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Floating orb — gentle rise and scale */
+@keyframes float-orb {
+  0%, 100% { transform: translateY(0px)   scale(1); }
+  50%       { transform: translateY(-20px) scale(1.05); }
+}
+
+/* Infinite horizontal ticker */
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Staggered entry — used with style delay */
+@keyframes stagger-in {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ─────────────────────────────────────────────
    UTILITY CLASSES
 ───────────────────────────────────────────── */
 
-/* Dark frosted glass — standard */
+/* Glassmorphism — Synapse standard */
 .glass {
   background: var(--bg-glass);
   backdrop-filter: blur(16px) saturate(150%);
@@ -149,7 +203,7 @@ body::after {
   border: 1px solid var(--border-mid);
 }
 
-/* Dark frosted glass — brighter border for cards */
+/* Glass — brighter border */
 .glass-bright {
   background: var(--bg-card);
   backdrop-filter: blur(20px) saturate(180%);
@@ -157,18 +211,17 @@ body::after {
   border: 1px solid var(--border-bright);
 }
 
-/* Hover glow border */
+/* Hover glow border — violet */
 .glow-border {
   border: 1px solid var(--border-mid);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s var(--ease-snappy), box-shadow 0.2s var(--ease-snappy);
 }
-
 .glow-border:hover {
   border-color: var(--border-glow);
-  box-shadow: 0 0 24px var(--sol-dim), inset 0 0 24px rgba(120,40,255,0.03);
+  box-shadow: 0 0 24px var(--violet-dim), inset 0 0 24px rgba(139,92,246,0.03);
 }
 
-/* Gradient text — white to text-sub (headings) */
+/* Gradient text — white to text-sub */
 .gradient-text {
   background: linear-gradient(135deg, #fff 0%, var(--text-sub) 100%);
   -webkit-background-clip: text;
@@ -176,9 +229,9 @@ body::after {
   background-clip: text;
 }
 
-/* Gradient text — brand green to purple (animates) */
+/* Gradient text — violet to cyan (static) */
 .gradient-text-brand {
-  background: linear-gradient(135deg, var(--green) 0%, var(--sol) 100%);
+  background: linear-gradient(135deg, var(--violet) 0%, var(--cyan) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -186,16 +239,101 @@ body::after {
   animation: gradient-shift 4s ease infinite;
 }
 
+/* Shimmer text — last hero word white→violet→white→cyan sweep */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    #a78bfa 0%,
+    #ffffff 30%,
+    #22d3ee 50%,
+    #ffffff 70%,
+    #a78bfa 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer-sweep 3s linear infinite;
+}
+
+/* Feature card — hover lift with violet glow */
+.feature-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 24px;
+  transition: transform 0.4s var(--ease-snappy), box-shadow 0.4s var(--ease-snappy), border-color 0.4s var(--ease-snappy);
+}
+.feature-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 24px 64px var(--violet-glow);
+  border-color: rgba(139,92,246,0.25);
+}
+.feature-card:hover .feature-icon {
+  transform: scale(1.1);
+}
+.feature-icon {
+  transition: transform 0.4s var(--ease-snappy);
+}
+
+/* Shiny border button — conic gradient spinner */
+.shiny-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px;
+  border-radius: 9999px;
+  overflow: hidden;
+  background: transparent;
+}
+.shiny-btn::before {
+  content: '';
+  position: absolute;
+  inset: -100%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    var(--violet) 35%,
+    var(--cyan) 50%,
+    transparent 60%
+  );
+  animation: conic-spin 4s linear infinite;
+  border-radius: 9999px;
+}
+.shiny-btn > * {
+  position: relative;
+  z-index: 1;
+  background: var(--bg3);
+  border-radius: 9999px;
+  width: 100%;
+}
+
+/* Ticker — infinite scroll strip */
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 40s linear infinite;
+}
+.ticker-wrap:hover .ticker-track {
+  animation-play-state: paused;
+}
+
 /* Scroll-triggered reveal */
 .reveal {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.6s var(--ease-snappy), transform 0.6s var(--ease-snappy);
 }
-
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Stagger — use style="--delay: Xs" */
+.stagger-in {
+  opacity: 0;
+  animation: stagger-in 0.7s var(--ease-snappy) forwards;
+  animation-delay: var(--delay, 0s);
 }
 
 /* Live-status pulsing dot */
@@ -208,7 +346,7 @@ body::after {
   display: inline-block;
   width: 8px;
   height: 14px;
-  background: var(--green);
+  background: var(--emerald);
   margin-left: 2px;
   animation: blink 1.1s step-end infinite;
   vertical-align: middle;
@@ -220,7 +358,7 @@ body::after {
   display: block;
   width: 24px;
   height: 1px;
-  background: var(--sol);
+  background: var(--violet);
 }
 
 /* Nav scroll border */
@@ -229,11 +367,14 @@ body::after {
 }
 
 /* Terminal syntax token colours */
-.t-prompt { color: var(--t-prompt); user-select: none; }
-.t-cmd    { color: var(--text); }
-.t-comment{ color: var(--text-dim); }
-.t-key    { color: var(--t-key); }
-.t-val    { color: var(--t-val); }
-.t-str    { color: var(--t-str); }
-.t-num    { color: var(--t-num); }
-.t-obj    { color: var(--text-muted); }
+.t-prompt  { color: var(--t-prompt);  user-select: none; }
+.t-cmd     { color: var(--text); }
+.t-comment { color: var(--t-comment); }
+.t-key     { color: var(--t-key); }
+.t-val     { color: var(--t-val); }
+.t-str     { color: var(--t-str); }
+.t-num     { color: var(--t-num); }
+.t-obj     { color: var(--text-muted); }
+.t-violet  { color: var(--t-violet); }
+.t-cyan    { color: var(--t-cyan); }
+.t-emerald { color: var(--t-emerald); }
