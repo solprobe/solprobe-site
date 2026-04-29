@@ -67,7 +67,7 @@ export default function DocsPage() {
               response={{
                 name: "SolProbe",
                 version: "1.0.0",
-                services: 4,
+                services: 3,
                 reputation_score: 98.4,
                 health: "https://solprobe.xyz/api/health",
               }}
@@ -94,7 +94,7 @@ export default function DocsPage() {
                 <div className="pl-4"><span className="t-key">agent</span><span className="t-obj">:</span> <span className="t-str">&quot;SolProbe&quot;</span><span className="t-obj">,</span></div>
                 <div className="pl-4"><span className="t-key">service</span><span className="t-obj">:</span> <span className="t-str">&quot;quick_scan&quot;</span><span className="t-obj">,</span></div>
                 <div className="pl-4"><span className="t-key">input</span><span className="t-obj">:</span> <span className="t-obj">{"{"}</span> <span className="t-key">token_address</span><span className="t-obj">:</span> <span className="t-str">&quot;EPjFWdd5...&quot;</span> <span className="t-obj">{"}"}</span><span className="t-obj">,</span></div>
-                <div className="pl-4"><span className="t-key">max_fee</span><span className="t-obj">:</span> <span className="t-num">0.01</span><span className="t-obj">,</span></div>
+                <div className="pl-4"><span className="t-key">max_fee</span><span className="t-obj">:</span> <span className="t-num">0.02</span><span className="t-obj">,</span></div>
                 <div><span className="t-obj">{"}"});</span></div>
                 <div className="mt-2"><span className="t-comment">// result.risk_grade → "A" | "B" | "C" | "D" | "F"</span></div>
               </div>
@@ -116,21 +116,14 @@ export default function DocsPage() {
             {[
               {
                 id: "quick_scan",
-                price: "$0.01",
+                price: "$0.02",
                 sla: "5s",
                 input: '{ "token_address": "string" }',
                 output: '{ "risk_grade": "A–F", "is_honeypot": bool, "liquidity_usd": number, ... }',
               },
               {
-                id: "wallet_risk",
-                price: "$0.02",
-                sla: "10s",
-                input: '{ "wallet_address": "string" }',
-                output: '{ "risk_score": 0–100, "is_bot": bool, "trading_style": "...", ... }',
-              },
-              {
                 id: "market_intel",
-                price: "$0.05",
+                price: "$0.20",
                 sla: "10s",
                 input: '{ "token_address": "string" }',
                 output: '{ "signal": "BULLISH|BEARISH|NEUTRAL", "buy_pressure": "...", ... }',
@@ -234,7 +227,7 @@ export default function DocsPage() {
                 </div>
                 <div className="font-sans font-bold text-[16px] mb-2">v1.0.0 — Initial launch</div>
                 <ul className="font-mono text-[12px] text-text-muted space-y-1">
-                  <li>→ Four service tiers: quick_scan, wallet_risk, market_intel, deep_dive</li>
+                  <li>→ Three service tiers: quick_scan, market_intel, deep_dive</li>
                   <li>→ Registered on Virtuals Protocol ACP mainnet</li>
                   <li>→ DexScreener, RugCheck, Helius, Birdeye, Solscan data sources</li>
                   <li>→ Circuit breaker + in-flight deduplication for resilience</li>

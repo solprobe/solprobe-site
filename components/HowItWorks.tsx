@@ -2,24 +2,32 @@ const STEPS = [
   {
     num: "01",
     icon: "⬡",
-    title: "Discover",
-    body: "Agent queries the ACP registry, finds SolProbe with capabilities, pricing, and reputation score attached.",
+    title: "Your agent calls one ACP service",
+    body: "The agent submits a token address and tier selection. ACP validates the request and escrows the fee on-chain before the job starts — no prepayment, no trust required.",
     accentColor: "var(--violet)",
     accentBg: "rgba(139,92,246,0.10)",
   },
   {
     num: "02",
     icon: "⇄",
-    title: "Request",
-    body: "Agent submits token address + tier selection. ACP escrows the fee on-chain before the job starts.",
+    title: "SolProbe fans out to up to six sources in parallel",
+    body: "Six concurrent queries — Helius, DexScreener, Birdeye, RugCheck, Jupiter, and on-chain state. Each source has an independent circuit breaker; partial failures degrade gracefully without blocking the response.",
     accentColor: "var(--cyan)",
     accentBg: "rgba(6,182,212,0.08)",
   },
   {
     num: "03",
+    icon: "◈",
+    title: "A deterministic scoring engine grades the result",
+    body: "A rule-based engine combines signals into a structural risk grade. No LLM in the scoring path — same inputs always produce the same output, making responses auditable and reproducible.",
+    accentColor: "var(--amber, #F59E0B)",
+    accentBg: "rgba(245,158,11,0.08)",
+  },
+  {
+    num: "04",
     icon: "✓",
-    title: "Deliver",
-    body: "SolProbe returns structured JSON. ACP releases escrow. Job is logged on-chain as a completed reputation event.",
+    title: "Your agent receives a fully typed response",
+    body: "Structured JSON with a schema version, typed fields for every metric, and a coverage declaration listing which sources responded. Your agent knows exactly what data it got and where it came from.",
     accentColor: "var(--emerald)",
     accentBg: "rgba(16,185,129,0.08)",
   },
@@ -41,7 +49,7 @@ export default function HowItWorks() {
         </h2>
 
         {/* Feature cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {STEPS.map(({ num, icon, title, body, accentColor, accentBg }) => (
             <div
               key={num}

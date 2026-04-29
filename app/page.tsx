@@ -9,7 +9,7 @@ import { getJobCount } from "@/lib/acp";
 const TIERS = [
   {
     tier: 1 as const,
-    price: "$0.05",
+    price: "$0.02",
     name: "Quick Scan",
     sla: "< 5s",
     icon: "⬡",
@@ -22,7 +22,7 @@ const TIERS = [
   },
   {
     tier: 2 as const,
-    price: "$0.10",
+    price: "$0.20",
     name: "Market Intel",
     sla: "< 10s",
     featured: true,
@@ -170,7 +170,7 @@ export default async function HomePage() {
               } as React.CSSProperties}
             >
               SolProbe sells on-chain scanning services to AI agents via
-              Virtuals Protocol ACP — from $0.05 quick safety checks to $0.50
+              Virtuals Protocol ACP — from $0.02 quick safety checks to $0.50
               deep-dive risk reports. Pay per scan, no subscription.
             </p>
 

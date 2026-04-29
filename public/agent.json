@@ -8,21 +8,14 @@
     {
       "id": "quick_scan",
       "name": "Quick Scan",
-      "price_virtual": 0.01,
+      "price_virtual": 0.02,
       "sla_ms": 5000,
       "schema": "https://solprobe.xyz/api/schema#quick_scan"
     },
     {
-      "id": "wallet_risk",
-      "name": "Wallet Risk",
-      "price_virtual": 0.02,
-      "sla_ms": 10000,
-      "schema": "https://solprobe.xyz/api/schema#wallet_risk"
-    },
-    {
       "id": "market_intel",
       "name": "Market Intel",
-      "price_virtual": 0.05,
+      "price_virtual": 0.20,
       "sla_ms": 10000,
       "schema": "https://solprobe.xyz/api/schema#market_intel"
     },

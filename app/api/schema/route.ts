@@ -7,7 +7,7 @@ export function GET() {
     version: "1.0.0",
     services: {
       quick_scan: {
-        price_virtual: 0.01,
+        price_virtual: 0.02,
         input: {
           type: "object",
           required: ["token_address"],
@@ -32,34 +32,8 @@ export function GET() {
           },
         },
       },
-      wallet_risk: {
-        price_virtual: 0.02,
-        input: {
-          type: "object",
-          required: ["wallet_address"],
-          properties: {
-            wallet_address: {
-              type: "string",
-              description: "Solana wallet address (base58, 32–44 chars)",
-            },
-          },
-        },
-        output: {
-          type: "object",
-          properties: {
-            wallet_age_days:      { type: "number" },
-            total_transactions:   { type: "number" },
-            is_bot:               { type: "boolean" },
-            rug_involvement_count:{ type: "number" },
-            whale_status:         { type: "boolean" },
-            risk_score:           { type: "number", minimum: 0, maximum: 100 },
-            trading_style:        { type: "string", enum: ["sniper", "hodler", "flipper", "bot", "unknown"] },
-            data_confidence:      { type: "string", enum: ["HIGH", "MEDIUM", "LOW"] },
-          },
-        },
-      },
       market_intel: {
-        price_virtual: 0.05,
+        price_virtual: 0.20,
         input: {
           type: "object",
           required: ["token_address"],

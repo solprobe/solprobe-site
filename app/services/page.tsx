@@ -4,7 +4,7 @@ import Terminal from "@/components/Terminal";
 export const metadata: Metadata = {
   title: "Services — SolProbe",
   description:
-    "Four Solana token intelligence tiers for AI agents. From $0.01 quick scans to $0.50 deep dives via Virtuals Protocol ACP.",
+    "Three Solana token intelligence tiers for AI agents. From $0.02 quick scans to $0.50 deep dives via Virtuals Protocol ACP.",
 };
 
 // ── Service definitions ─────────────────────────────────────────────────────
@@ -12,7 +12,7 @@ const SERVICES = [
   {
     id: "quick_scan",
     tier: 1,
-    price: "$0.01",
+    price: "$0.02",
     name: "Quick Scan",
     tagline: "Instant safety check before any trade",
     sla: "< 5 seconds",
@@ -42,42 +42,9 @@ const SERVICES = [
     },
   },
   {
-    id: "wallet_risk",
-    tier: 2,
-    price: "$0.02",
-    name: "Wallet Risk",
-    tagline: "Counterparty risk profile before interaction",
-    sla: "< 10 seconds",
-    accentColor: "var(--sol)",
-    useCases: [
-      "Evaluating counterparty wallets before OTC trades",
-      "Filtering out bot wallets from airdrop lists",
-      "Due diligence on new LP providers",
-    ],
-    checks: [
-      "Wallet age in days",
-      "Total transaction count",
-      "Bot behaviour detection",
-      "Rug pull involvement history",
-      "Whale status flag",
-      "Risk score 0–100",
-      "Trading style classification",
-    ],
-    terminalResponse: {
-      wallet_age_days: 312,
-      total_transactions: 4821,
-      is_bot: false,
-      rug_involvement_count: 0,
-      whale_status: false,
-      risk_score: 18,
-      trading_style: "flipper",
-      data_confidence: "HIGH",
-    },
-  },
-  {
     id: "market_intel",
-    tier: 3,
-    price: "$0.05",
+    tier: 2,
+    price: "$0.20",
     name: "Market Intel",
     tagline: "Real-time signals for pre-trade decisions",
     sla: "< 10 seconds",
@@ -113,7 +80,7 @@ const SERVICES = [
   },
   {
     id: "deep_dive",
-    tier: 4,
+    tier: 3,
     price: "$0.50",
     name: "Deep Dive",
     tagline: "Comprehensive analysis for high-stakes decisions",
@@ -162,7 +129,7 @@ export default function ServicesPage() {
             </span>
           </div>
           <h1 className="font-sans font-extrabold text-[clamp(36px,4vw,56px)] leading-[1.1] mb-4">
-            Four tiers.{" "}
+            Three tiers.{" "}
             <span className="text-green">Pay per scan.</span>
           </h1>
           <p className="font-mono font-light text-[14px] text-text-muted max-w-[560px]">
