@@ -61,6 +61,44 @@ export function GET() {
           },
         },
       },
+      sol_trade: {
+        price_virtual: 0.15,
+        input: {
+          type: "object",
+          required: ["token_address", "amount"],
+          properties: {
+            token_address: {
+              type: "string",
+              description: "Output token mint address (base58, 32–44 chars)",
+            },
+            amount: {
+              type: "number",
+              description: "Input amount in lamports (SOL) or token base units",
+            },
+            slippage_bps: {
+              type: "number",
+              description: "Maximum acceptable slippage in basis points (default: 50)",
+            },
+          },
+        },
+        output: {
+          type: "object",
+          properties: {
+            phase:              { type: "string", enum: ["quote", "execute"] },
+            status:             { type: "string", enum: ["confirmed", "failed"] },
+            tx_signature:       { type: ["string", "null"] },
+            unsigned_tx:        { type: ["string", "null"], description: "Base64-encoded transaction (phase A only)" },
+            input_mint:         { type: "string" },
+            output_mint:        { type: "string" },
+            input_amount:       { type: "number" },
+            output_amount_usd:  { type: "number" },
+            price_impact_pct:   { type: "number" },
+            fee_usdc:           { type: "number" },
+            risk_gate_passed:   { type: "boolean" },
+            data_confidence:    { type: "string", enum: ["HIGH", "MEDIUM", "LOW"] },
+          },
+        },
+      },
       deep_dive: {
         price_virtual: 0.50,
         input: {

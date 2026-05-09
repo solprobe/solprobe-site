@@ -25,6 +25,13 @@
       "price_virtual": 0.50,
       "sla_ms": 30000,
       "schema": "https://solprobe.xyz/api/schema#deep_dive"
+    },
+    {
+      "id": "sol_trade",
+      "name": "Trade",
+      "price_virtual": 0.15,
+      "sla_ms": 15000,
+      "schema": "https://solprobe.xyz/api/schema#sol_trade"
     }
   ],
   "health_endpoint": "https://solprobe.xyz/api/health",

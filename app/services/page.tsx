@@ -4,7 +4,7 @@ import Terminal from "@/components/Terminal";
 export const metadata: Metadata = {
   title: "Services — SolProbe",
   description:
-    "Three Solana token intelligence tiers for AI agents. From $0.02 quick scans to $0.50 deep dives via Virtuals Protocol ACP.",
+    "Four Solana services for AI agents — scanning, market intel, deep-dive analysis, and Jupiter-routed swap execution via Virtuals Protocol ACP.",
 };
 
 // ── Service definitions ─────────────────────────────────────────────────────
@@ -113,6 +113,39 @@ const SERVICES = [
       data_confidence: "HIGH",
     },
   },
+  {
+    id: "sol_trade",
+    tier: 4,
+    price: "$0.15",
+    name: "Trade",
+    tagline: "Jupiter-routed swap execution with built-in risk gating",
+    sla: "< 15 seconds",
+    accentColor: "var(--cyan)",
+    useCases: [
+      "Autonomous token swaps without human-in-the-loop custody",
+      "Risk-gated trade execution for portfolio management agents",
+      "Programmatic swaps with Jupiter's aggregated liquidity",
+    ],
+    checks: [
+      "Phase A — validate request, run risk gate, fetch Jupiter Ultra best-route quote",
+      "Grade-F tokens rejected before any swap is attempted",
+      "Returns an unsigned transaction — the buyer wallet never leaves agent control",
+      "Phase B — broadcast the agent-signed transaction to the network",
+      "Returns confirmed tx_signature on success",
+      "Pair with sol_quick_scan for additional structural safety context",
+    ],
+    terminalResponse: {
+      phase: "execute",
+      status: "confirmed",
+      tx_signature: "5xK9...mQ7",
+      input_mint: "So11...1112",
+      output_mint: "EPjF...uMk2",
+      input_amount: 1000000,
+      output_amount_usd: 241.85,
+      price_impact_pct: 0.12,
+      fee_usdc: 0.15,
+    },
+  },
 ] as const;
 
 // ── Page ────────────────────────────────────────────────────────────────────
@@ -129,8 +162,8 @@ export default function ServicesPage() {
             </span>
           </div>
           <h1 className="font-sans font-extrabold text-[clamp(36px,4vw,56px)] leading-[1.1] mb-4">
-            Three tiers.{" "}
-            <span className="text-green">Pay per scan.</span>
+            Four services.{" "}
+            <span className="text-green">Pay per use.</span>
           </h1>
           <p className="font-mono font-light text-[14px] text-text-muted max-w-[560px]">
             Every service returns structured JSON and logs a reputation event

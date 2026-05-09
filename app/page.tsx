@@ -48,6 +48,20 @@ const TIERS = [
       "Full risk report + recommendation",
     ],
   },
+  {
+    tier: 4 as const,
+    price: "$0.15",
+    name: "Trade",
+    sla: "< 15s",
+    icon: "⟳",
+    features: [
+      "Jupiter Ultra best-route quote",
+      "Grade-F tokens rejected at gate",
+      "Unsigned tx returned — wallet stays yours",
+      "Broadcast on agent signature",
+      "Confirmed tx_signature on success",
+    ],
+  },
 ] as const;
 
 // ── Trust badges ─────────────────────────────────────────────────────────────
@@ -272,10 +286,10 @@ export default async function HomePage() {
             </span>
           </div>
           <h2 className="font-sans font-bold text-[clamp(28px,3vw,40px)] mb-12 reveal">
-            Three tiers. Pay per scan.
+            Four services. Pay per use.
           </h2>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {TIERS.map(({ tier, price, name, sla, features, icon, ...rest }) => (
               <ServiceCard
                 key={tier}

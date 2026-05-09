@@ -67,7 +67,7 @@ export default function DocsPage() {
               response={{
                 name: "SolProbe",
                 version: "1.0.0",
-                services: 3,
+                services: 4,
                 reputation_score: 98.4,
                 health: "https://solprobe.xyz/api/health",
               }}
@@ -134,6 +134,13 @@ export default function DocsPage() {
                 sla: "30s",
                 input: '{ "token_address": "string" }',
                 output: '{ "recommendation": "BUY|AVOID|WATCH|DYOR", "full_risk_report": "...", ... }',
+              },
+              {
+                id: "sol_trade",
+                price: "$0.15",
+                sla: "15s",
+                input: '{ "token_address": "string", "amount": number, "slippage_bps": number }',
+                output: '{ "status": "confirmed", "tx_signature": "string", "price_impact_pct": number, ... }',
               },
             ].map(({ id, price, sla, input, output }) => (
               <div key={id} className="mb-8 border border-border rounded-[6px] bg-bg2 overflow-hidden">
@@ -227,7 +234,7 @@ export default function DocsPage() {
                 </div>
                 <div className="font-sans font-bold text-[16px] mb-2">v1.0.0 — Initial launch</div>
                 <ul className="font-mono text-[12px] text-text-muted space-y-1">
-                  <li>→ Three service tiers: quick_scan, market_intel, deep_dive</li>
+                  <li>→ Four services: quick_scan, market_intel, deep_dive, sol_trade</li>
                   <li>→ Registered on Virtuals Protocol ACP mainnet</li>
                   <li>→ DexScreener, RugCheck, Helius, Birdeye, Solscan data sources</li>
                   <li>→ Circuit breaker + in-flight deduplication for resilience</li>

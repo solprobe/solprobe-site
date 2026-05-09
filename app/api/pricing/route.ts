@@ -10,6 +10,7 @@ export function GET() {
       { id: "quick_scan",   price: 0.02, sla_ms: 5000  },
       { id: "market_intel", price: 0.20, sla_ms: 10000 },
       { id: "deep_dive",    price: 0.50, sla_ms: 30000 },
+      { id: "sol_trade",    price: 0.15, sla_ms: 15000 },
     ],
   });
 }
