@@ -5,7 +5,6 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import TrustBar from "@/components/TrustBar";
 import ScrollEffects from "@/components/ScrollEffects";
-import Providers from "./providers";
 import { getJobCount } from "@/lib/acp";
 
 // ── Fonts ──────────────────────────────────────────────────────────────────
@@ -79,15 +78,13 @@ export default async function RootLayout({
       className={`${jetbrainsMono.variable} ${bricolage.variable} ${inter.variable}`}
     >
       <body>
-        <Providers>
-          <ScrollEffects />
-          <Nav />
+        <ScrollEffects />
+        <Nav />
 
-          <main>{children}</main>
+        <main>{children}</main>
 
-          <TrustBar jobCount={jobCount} />
-          <Footer />
-        </Providers>
+        <TrustBar jobCount={jobCount} />
+        <Footer />
       </body>
     </html>
   );

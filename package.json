@@ -9,18 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.100.10",
     "@upstash/redis": "^1.37.0",
     "@vercel/kv": "^3.0.0",
-    "@x402/core": "^2.12.0",
-    "@x402/evm": "^2.12.0",
-    "@x402/fetch": "^2.12.0",
     "next": "^14.2.29",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "recharts": "^3.8.0",
-    "viem": "^2.49.0",
-    "wagmi": "^3.6.14"
+    "recharts": "^3.8.0"
   },
   "devDependencies": {
     "@types/node": "^20",
