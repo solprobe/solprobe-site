@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function ScrollEffects() {
+  const pathname = usePathname();
+
   useEffect(() => {
     // ── Nav border on scroll ───────────────────────────────────────────────
     const nav = document.getElementById("main-nav");
@@ -38,7 +41,7 @@ export default function ScrollEffects() {
       window.removeEventListener("scroll", handleScroll);
       observer.disconnect();
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }

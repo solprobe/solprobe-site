@@ -3,6 +3,7 @@ import Terminal from "@/components/Terminal";
 import StatsStrip from "@/components/StatsStrip";
 import HowItWorks from "@/components/HowItWorks";
 import ServiceCard from "@/components/ServiceCard";
+import HeroShader from "@/components/HeroShader";
 import { getJobCount } from "@/lib/acp";
 
 // ── Service tier data ────────────────────────────────────────────────────────
@@ -109,37 +110,8 @@ export default async function HomePage() {
       {/* ── Hero ── */}
       <section className="relative z-10 pt-48 pb-28 px-section-x overflow-hidden">
 
-        {/* Floating ambient orbs */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute top-20 left-[-120px] w-[700px] h-[700px] rounded-full"
-          style={{
-            background: "radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%)",
-            filter: "blur(80px)",
-            zIndex: -1,
-            animation: "float-orb 12s ease-in-out infinite",
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute bottom-0 right-[-100px] w-[500px] h-[500px] rounded-full"
-          style={{
-            background: "radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%)",
-            filter: "blur(80px)",
-            zIndex: -1,
-            animation: "float-orb 15s ease-in-out infinite 2s",
-          }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full"
-          style={{
-            background: "radial-gradient(circle, rgba(16,185,129,0.05) 0%, transparent 70%)",
-            filter: "blur(80px)",
-            zIndex: -1,
-            animation: "float-orb 10s ease-in-out infinite 4s",
-          }}
-        />
+        {/* WebGL shader background */}
+        <HeroShader />
 
         <div className="max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left */}

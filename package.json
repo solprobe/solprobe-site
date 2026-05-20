@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@paper-design/shaders-react": "^0.0.76",
     "@upstash/redis": "^1.37.0",
     "@vercel/kv": "^3.0.0",
     "next": "^14.2.29",
