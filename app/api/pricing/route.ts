@@ -1,16 +1,37 @@
 import { NextResponse } from "next/server";
+import {
+  getOpenApi,
+  PATH_TO_SERVICE_ID,
+  SLA_MS_BY_SERVICE,
+  type ServiceId,
+} from "@/lib/backend";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
-export function GET() {
-  return NextResponse.json({
-    currency: "USDC",
-    updated_at: new Date().toISOString(),
-    tiers: [
-      { id: "quick_scan",   price: 0.02, sla_ms: 5000  },
-      { id: "market_intel", price: 0.20, sla_ms: 10000 },
-      { id: "deep_dive",    price: 0.50, sla_ms: 30000 },
-      { id: "sol_trade",    price: 0.15, sla_ms: 15000 },
-    ],
-  });
+export async function GET() {
+  try {
+    const doc = await getOpenApi();
+    const tiers: Array<{ id: ServiceId; price: number; sla_ms: number }> = [];
+
+    for (const [path, id] of Object.entries(PATH_TO_SERVICE_ID)) {
+      const amount = doc.paths[path]?.post?.["x-payment-info"]?.price?.amount;
+      if (amount === undefined) continue;
+      tiers.push({
+        id: id as ServiceId,
+        price: Number(amount),
+        sla_ms: SLA_MS_BY_SERVICE[id as ServiceId],
+      });
+    }
+
+    return NextResponse.json({
+      currency: "USDC",
+      updated_at: new Date().toISOString(),
+      tiers,
+    });
+  } catch (err) {
+    return NextResponse.json(
+      { error: "backend_unreachable", message: String(err) },
+      { status: 502, headers: { "Cache-Control": "no-store" } },
+    );
+  }
 }

@@ -1,17 +1,30 @@
 import { NextResponse } from "next/server";
+import { getBackendHealth } from "@/lib/backend";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
-export function GET() {
-  return NextResponse.json({
-    status: "ok",
-    timestamp: new Date().toISOString(),
-    services: {
-      quick_scan:     { status: "ok", latency_p50_ms: 340 },
-      wallet_risk:    { status: "ok", latency_p50_ms: 480 },
-      market_intel:   { status: "ok", latency_p50_ms: 290 },
-      deep_dive:      { status: "ok", latency_p50_ms: 8200 },
-    },
-    version: "1.0.0",
-  });
+export async function GET() {
+  try {
+    const health = await getBackendHealth();
+    return NextResponse.json({
+      status: health.status,
+      timestamp: new Date().toISOString(),
+      uptime_seconds:        health.uptime_seconds        ?? null,
+      total_requests:        health.total_requests        ?? null,
+      cache_hits:            health.cache_hits            ?? null,
+      degraded_sources:      health.degraded_sources      ?? [],
+      circuit_breakers:      health.circuit_breakers      ?? {},
+      source_success_rates:  health.source_success_rates  ?? {},
+    });
+  } catch (err) {
+    return NextResponse.json(
+      {
+        status: "down",
+        timestamp: new Date().toISOString(),
+        error: "backend_unreachable",
+        message: String(err),
+      },
+      { status: 502, headers: { "Cache-Control": "no-store" } },
+    );
+  }
 }
