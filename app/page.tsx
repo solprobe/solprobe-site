@@ -453,7 +453,7 @@ export default async function HomePage() {
                 <span style={{ color: "var(--text-muted)" }}>, </span>
                 <span className="t-key">&quot;tiers&quot;</span>
                 <span style={{ color: "var(--text-muted)" }}>: </span>
-                <span className="t-num">3</span>
+                <span className="t-num">4</span>
                 <span style={{ color: "var(--text-muted)" }}>{"}"}</span>
               </div>
               <div className="mt-3"><span className="t-comment"># 2. Escrow &amp; request</span></div>

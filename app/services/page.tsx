@@ -16,7 +16,9 @@ const SERVICES = [
     name: "Quick Scan",
     tagline: "Instant safety check before any trade",
     sla: "< 5 seconds",
-    accentColor: "var(--green)",
+    accentColor: "var(--emerald)",
+    accentDim: "var(--emerald-dim)",
+    accentGlow: "var(--emerald-glow)",
     useCases: [
       "Pre-trade safety gate for trading agents",
       "Bulk screening of token watchlists",
@@ -48,7 +50,9 @@ const SERVICES = [
     name: "Market Intel",
     tagline: "Real-time signals for pre-trade decisions",
     sla: "< 10 seconds",
-    accentColor: "var(--sol)",
+    accentColor: "var(--violet)",
+    accentDim: "var(--violet-dim)",
+    accentGlow: "var(--violet-glow)",
     featured: true,
     useCases: [
       "Momentum-based entry/exit timing for trading agents",
@@ -86,6 +90,8 @@ const SERVICES = [
     tagline: "Comprehensive analysis for high-stakes decisions",
     sla: "< 30 seconds",
     accentColor: "var(--amber)",
+    accentDim: "var(--amber-dim)",
+    accentGlow: "rgba(245,158,11,0.30)",
     useCases: [
       "Full due diligence before large position entry",
       "Automated rug detection for portfolio protection agents",
@@ -121,6 +127,8 @@ const SERVICES = [
     tagline: "Jupiter-routed swap execution with built-in risk gating",
     sla: "< 15 seconds",
     accentColor: "var(--cyan)",
+    accentDim: "var(--cyan-dim)",
+    accentGlow: "var(--cyan-glow)",
     useCases: [
       "Autonomous token swaps without human-in-the-loop custody",
       "Risk-gated trade execution for portfolio management agents",
@@ -152,20 +160,30 @@ const SERVICES = [
 export default function ServicesPage() {
   return (
     <>
-      {/* Header */}
-      <section className="relative z-10 pt-[calc(64px+80px)] pb-16 px-section-x border-b border-border">
-        <div className="max-w-8xl mx-auto">
-          <div className="flex items-center gap-3 mb-4">
+      {/* ── Header ── */}
+      <section className="relative z-10 pt-[calc(64px+80px)] pb-20 px-section-x border-b border-border overflow-hidden">
+        {/* Ambient violet glow behind header */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute top-0 left-1/4 w-[600px] h-[400px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)",
+            filter: "blur(80px)",
+            zIndex: 0,
+          }}
+        />
+        <div className="relative z-10 max-w-8xl mx-auto">
+          <div className="flex items-center gap-3 mb-5">
             <div className="section-tag-line" />
-            <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-sol">
+            <span className="font-body text-[11px] tracking-[0.12em] uppercase text-violet">
               Services
             </span>
           </div>
-          <h1 className="font-sans font-extrabold text-[clamp(36px,4vw,56px)] leading-[1.1] mb-4">
+          <h1 className="font-sans font-extrabold text-[clamp(36px,4vw,64px)] leading-[1.05] mb-5">
             Four services.{" "}
-            <span className="text-green">Pay per use.</span>
+            <span className="text-emerald">Pay per use.</span>
           </h1>
-          <p className="font-mono font-light text-[14px] text-text-muted max-w-[560px]">
+          <p className="font-body font-light text-[15px] leading-relaxed text-text-sub max-w-[600px]">
             Every service returns structured JSON and logs a reputation event
             on-chain via Virtuals Protocol ACP. No subscriptions — agents pay
             only for the intelligence they consume.
@@ -173,113 +191,184 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Service sections */}
+      {/* ── Service sections ── */}
       {SERVICES.map(
-        ({
-          id,
-          tier,
-          price,
-          name,
-          tagline,
-          sla,
-          accentColor,
-          useCases,
-          checks,
-          terminalResponse,
-          ...rest
-        }) => {
+        (
+          {
+            id,
+            tier,
+            price,
+            name,
+            tagline,
+            sla,
+            accentColor,
+            accentDim,
+            accentGlow,
+            useCases,
+            checks,
+            terminalResponse,
+            ...rest
+          },
+          index
+        ) => {
           const featured = "featured" in rest && rest.featured;
+          const terminalRight = index % 2 === 0;
+
+          const detailsBlock = (
+            <div>
+              {/* Tier badge + popular tag */}
+              <div className="flex items-center gap-3 mb-6">
+                <span
+                  className="font-body text-[11px] tracking-[0.1em] uppercase px-2.5 py-1 rounded-full border"
+                  style={{
+                    color: accentColor,
+                    borderColor: `color-mix(in srgb, ${accentColor} 30%, transparent)`,
+                    background: `color-mix(in srgb, ${accentColor} 10%, transparent)`,
+                  }}
+                >
+                  Tier {tier}
+                </span>
+                {featured && (
+                  <span
+                    className="font-body text-[10px] tracking-[0.1em] uppercase px-2.5 py-1 rounded-full border"
+                    style={{
+                      color: "var(--violet)",
+                      borderColor: "rgba(139,92,246,0.30)",
+                      background: "var(--violet-dim)",
+                    }}
+                  >
+                    Popular
+                  </span>
+                )}
+              </div>
+
+              {/* Price */}
+              <div
+                className="font-mono font-bold text-[48px] leading-none mb-2 tabular-nums"
+                style={{ color: accentColor }}
+              >
+                {price}
+              </div>
+              <h2 className="font-sans font-bold text-[28px] leading-tight mb-3">
+                {name}
+              </h2>
+              <p className="font-body text-[14px] leading-relaxed text-text-sub mb-8">
+                {tagline}
+              </p>
+
+              {/* SLA */}
+              <div className="inline-flex items-center gap-2 mb-8 px-3 py-1.5 rounded-full"
+                style={{
+                  background: `color-mix(in srgb, ${accentColor} 8%, transparent)`,
+                  border: `1px solid color-mix(in srgb, ${accentColor} 25%, transparent)`,
+                }}
+              >
+                <span
+                  className="pulse-dot w-1.5 h-1.5 rounded-full shrink-0 inline-block"
+                  style={{ background: accentColor }}
+                />
+                <span className="font-body text-[12px]" style={{ color: accentColor }}>
+                  SLA: {sla}
+                </span>
+              </div>
+
+              {/* What's checked */}
+              <div className="mb-8">
+                <div
+                  className="font-body text-[11px] tracking-[0.12em] uppercase mb-4"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  What&apos;s checked
+                </div>
+                <ul className="flex flex-col gap-2.5">
+                  {checks.map((c) => (
+                    <li
+                      key={c}
+                      className="flex items-start gap-2.5 font-body text-[13px] leading-snug text-text-sub"
+                    >
+                      <span
+                        className="shrink-0 mt-0.5 text-[12px]"
+                        style={{ color: accentColor }}
+                      >
+                        →
+                      </span>
+                      {c}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Use cases */}
+              <div>
+                <div
+                  className="font-body text-[11px] tracking-[0.12em] uppercase mb-4"
+                  style={{ color: "var(--text-muted)" }}
+                >
+                  Use cases
+                </div>
+                <ul className="flex flex-col gap-2.5">
+                  {useCases.map((u) => (
+                    <li
+                      key={u}
+                      className="flex items-start gap-2.5 font-body text-[13px] leading-snug text-text-sub"
+                    >
+                      <span
+                        className="shrink-0 mt-0.5 text-[12px]"
+                        style={{ color: "var(--text-muted)" }}
+                      >
+                        ·
+                      </span>
+                      {u}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          );
+
+          const terminalBlock = (
+            <div className="lg:sticky lg:top-[calc(64px+32px)]">
+              <Terminal
+                service={`${id} — example response`}
+                command={`solprobe ${id} <token_address>`}
+                fee={price}
+                response={terminalResponse}
+              />
+            </div>
+          );
+
           return (
             <section
               key={id}
               id={id}
-              className="relative z-10 py-20 px-section-x border-b border-border"
+              className="relative z-10 py-20 px-section-x border-b border-border overflow-hidden"
             >
-              <div className="max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                {/* Left — details */}
-                <div>
-                  {/* Tier badge */}
-                  <div className="flex items-center gap-3 mb-6">
-                    <span
-                      className="font-mono text-[11px] tracking-[0.1em] uppercase px-2.5 py-1 rounded-full border"
-                      style={{
-                        color: accentColor,
-                        borderColor: `color-mix(in srgb, ${accentColor} 30%, transparent)`,
-                        background: `color-mix(in srgb, ${accentColor} 10%, transparent)`,
-                      }}
-                    >
-                      Tier {tier}
-                    </span>
-                    {featured && (
-                      <span className="font-mono text-[10px] tracking-[0.1em] uppercase text-sol border border-sol/30 bg-sol-dim px-2 py-0.5 rounded-full">
-                        Popular
-                      </span>
-                    )}
-                  </div>
-
-                  <div
-                    className="font-mono font-bold text-[40px] leading-none mb-1"
-                    style={{ color: accentColor }}
-                  >
-                    {price}
-                  </div>
-                  <h2 className="font-sans font-bold text-[28px] mb-2">{name}</h2>
-                  <p className="font-mono text-[13px] text-text-muted mb-8">
-                    {tagline}
-                  </p>
-
-                  {/* SLA */}
-                  <div className="flex items-center gap-2 mb-8 font-mono text-[12px] text-text-muted">
-                    <span className="pulse-dot w-1.5 h-1.5 rounded-full bg-green inline-block" />
-                    SLA: <span className="text-green">{sla}</span>
-                  </div>
-
-                  {/* What's checked */}
-                  <div className="mb-8">
-                    <div className="font-mono text-[11px] tracking-[0.1em] uppercase text-text-dim mb-3">
-                      What&apos;s checked
-                    </div>
-                    <ul className="flex flex-col gap-2">
-                      {checks.map((c) => (
-                        <li
-                          key={c}
-                          className="flex items-start gap-2 font-mono text-[12px] text-text-muted"
-                        >
-                          <span className="text-green mt-0.5">→</span>
-                          {c}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Use cases */}
-                  <div>
-                    <div className="font-mono text-[11px] tracking-[0.1em] uppercase text-text-dim mb-3">
-                      Use cases
-                    </div>
-                    <ul className="flex flex-col gap-2">
-                      {useCases.map((u) => (
-                        <li
-                          key={u}
-                          className="flex items-start gap-2 font-mono text-[12px] text-text-muted"
-                        >
-                          <span className="text-sol mt-0.5">·</span>
-                          {u}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Right — terminal */}
-                <div className="lg:sticky lg:top-[calc(64px+32px)]">
-                  <Terminal
-                    service={`${id} — example response`}
-                    command={`solprobe ${id} <token_address>`}
-                    fee={price}
-                    response={terminalResponse}
-                  />
-                </div>
+              {/* Per-section ambient accent glow */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute rounded-full"
+                style={{
+                  width: "500px",
+                  height: "500px",
+                  top: "-100px",
+                  [terminalRight ? "right" : "left"]: "-150px",
+                  background: `radial-gradient(circle, color-mix(in srgb, ${accentColor} 8%, transparent) 0%, transparent 70%)`,
+                  filter: "blur(80px)",
+                  zIndex: 0,
+                }}
+              />
+              <div className="relative z-10 max-w-8xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-start reveal">
+                {terminalRight ? (
+                  <>
+                    {detailsBlock}
+                    {terminalBlock}
+                  </>
+                ) : (
+                  <>
+                    {terminalBlock}
+                    {detailsBlock}
+                  </>
+                )}
               </div>
             </section>
           );
