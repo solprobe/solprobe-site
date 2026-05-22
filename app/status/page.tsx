@@ -29,8 +29,10 @@ function deriveOverall(check: HealthCheck | null): OverallStatus {
 
 function calcUptime(history: HealthCheck[], key: ServiceKey): string {
   if (history.length === 0) return "—";
-  const ok = history.filter((c) => c.services[key].status === "ok").length;
-  return ((ok / history.length) * 100).toFixed(2) + "%";
+  const valid = history.filter((c) => c.services[key] != null);
+  if (valid.length === 0) return "—";
+  const ok = valid.filter((c) => c.services[key].status === "ok").length;
+  return ((ok / valid.length) * 100).toFixed(2) + "%";
 }
 
 // ── SLA reference (ms) ────────────────────────────────────────────────────────

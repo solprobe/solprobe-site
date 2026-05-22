@@ -27,6 +27,7 @@ const STATUS_COLOR: Record<ServiceStatus["status"], string> = {
 function buildSeries(history: HealthCheck[], key: ServiceKey): ChartPoint[] {
   return [...history]
     .reverse()
+    .filter((check) => check.services[key] != null)
     .map((check) => ({
       timestamp: check.timestamp,
       latency:   check.services[key].latency_ms,
