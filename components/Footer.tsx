@@ -8,7 +8,7 @@ const PRODUCT_LINKS = [
 ] as const;
 
 const PROTOCOL_LINKS = [
-  { href: "https://app.virtuals.io/acp/agent/24456", label: "ACP Registry",    external: true },
+  { href: "https://app.virtuals.io/acp/agent/019ddf5c-62c0-706d-a3c2-99c6e08a5388", label: "ACP Registry", external: true },
   { href: "https://virtuals.io",                     label: "Virtuals Protocol", external: true },
   { href: "https://solana.com",                      label: "Solana",           external: true },
 ] as const;

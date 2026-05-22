@@ -18,7 +18,7 @@ export default function TrustBar({ jobCount = 0 }: TrustBarProps) {
           "
         >
           <Link
-            href="https://app.virtuals.io/acp/agent/24456"
+            href="https://app.virtuals.io/acp/agent/019ddf5c-62c0-706d-a3c2-99c6e08a5388"
             target="_blank"
             rel="noopener noreferrer"
             className="no-underline group"
@@ -62,7 +62,7 @@ export default function TrustBar({ jobCount = 0 }: TrustBarProps) {
           "
         >
           <Link
-            href="https://app.virtuals.io/acp/agent/24456"
+            href="https://app.virtuals.io/acp/agent/019ddf5c-62c0-706d-a3c2-99c6e08a5388"
             target="_blank"
             rel="noopener noreferrer"
             className="no-underline group"
