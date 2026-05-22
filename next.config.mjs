@@ -7,19 +7,19 @@ const nextConfig = {
         destination: "https://api.solprobe.xyz/",
         permanent: true,
       },
-      // Docs moved to GitBook at docs.solprobe.xyz. Redirect the old Next.js
-      // /docs route (and any deep links) there. Temporary (307) during rollout
-      // so it stays reversible and isn't browser-cached — flip both to
-      // `permanent: true` (308) once the GitBook domain is confirmed stable.
+      // Docs live on GitBook at docs.solprobe.xyz, confirmed public + stable —
+      // permanent (308) redirects. Note GitBook prefixes pages by section
+      // (/reference/*, /access-paths/*), so /docs/:path* is a best-effort
+      // forward; the old /docs route was a single page with no real subpaths.
       {
         source: "/docs",
         destination: "https://docs.solprobe.xyz",
-        permanent: false,
+        permanent: true,
       },
       {
         source: "/docs/:path*",
         destination: "https://docs.solprobe.xyz/:path*",
-        permanent: false,
+        permanent: true,
       },
     ];
   },
