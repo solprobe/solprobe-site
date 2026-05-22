@@ -26,10 +26,10 @@ export interface ServiceStatus {
 export interface HealthCheck {
   timestamp: string; // ISO 8601
   services: {
-    quick_scan:     ServiceStatus;
-    token_analysis: ServiceStatus;
-    full_report:    ServiceStatus;
-    deep_dive:      ServiceStatus;
+    sol_quick_scan:   ServiceStatus;
+    sol_market_intel: ServiceStatus;
+    sol_deep_dive:    ServiceStatus;
+    sol_trade:        ServiceStatus;
   };
 }
 

@@ -50,9 +50,9 @@ function isHealthCheck(data: unknown): data is HealthCheck {
 
   const svc = check.services as Record<string, unknown>;
   return (
-    isServiceStatus(svc.quick_scan) &&
-    isServiceStatus(svc.token_analysis) &&
-    isServiceStatus(svc.full_report) &&
-    isServiceStatus(svc.deep_dive)
+    isServiceStatus(svc.sol_quick_scan) &&
+    isServiceStatus(svc.sol_market_intel) &&
+    isServiceStatus(svc.sol_deep_dive) &&
+    isServiceStatus(svc.sol_trade)
   );
 }

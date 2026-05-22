@@ -19,7 +19,7 @@ interface ChartPoint {
 }
 
 const STATUS_COLOR: Record<ServiceStatus["status"], string> = {
-  ok:       "#14F195",
+  ok:       "#10B981",
   degraded: "#FFB800",
   down:     "#E24B4A",
 };
@@ -59,17 +59,17 @@ interface Props {
 }
 
 const SERVICE_LABELS: Record<ServiceKey, { name: string; price: string }> = {
-  quick_scan:     { name: "Quick Scan",     price: "$0.01" },
-  token_analysis: { name: "Token Analysis", price: "$0.10" },
-  full_report:    { name: "Full Report",    price: "$0.25" },
-  deep_dive:      { name: "Deep Dive",      price: "$0.50" },
+  sol_quick_scan:   { name: "Quick Scan",   price: "$0.02" },
+  sol_market_intel: { name: "Market Intel", price: "$0.20" },
+  sol_deep_dive:    { name: "Deep Dive",    price: "$0.50" },
+  sol_trade:        { name: "Trade",        price: "$0.15" },
 };
 
 const SERVICE_KEYS: ServiceKey[] = [
-  "quick_scan",
-  "token_analysis",
-  "full_report",
-  "deep_dive",
+  "sol_quick_scan",
+  "sol_market_intel",
+  "sol_deep_dive",
+  "sol_trade",
 ];
 
 export default function UptimeChart({ history }: Props) {

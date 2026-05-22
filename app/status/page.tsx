@@ -35,32 +35,32 @@ function calcUptime(history: HealthCheck[], key: ServiceKey): string {
 
 // ── SLA reference (ms) ────────────────────────────────────────────────────────
 const SLA: Record<ServiceKey, number> = {
-  quick_scan:     100,
-  token_analysis: 500,
-  full_report:    1000,
-  deep_dive:      2000,
+  sol_quick_scan:   5000,
+  sol_market_intel: 10000,
+  sol_deep_dive:    30000,
+  sol_trade:        15000,
 };
 
 const SERVICE_META: Record<
   ServiceKey,
   { name: string; price: string }
 > = {
-  quick_scan:     { name: "Quick Scan",     price: "$0.01" },
-  token_analysis: { name: "Token Analysis", price: "$0.10" },
-  full_report:    { name: "Full Report",    price: "$0.25" },
-  deep_dive:      { name: "Deep Dive",      price: "$0.50" },
+  sol_quick_scan:   { name: "Quick Scan",   price: "$0.02" },
+  sol_market_intel: { name: "Market Intel", price: "$0.20" },
+  sol_deep_dive:    { name: "Deep Dive",    price: "$0.50" },
+  sol_trade:        { name: "Trade",        price: "$0.15" },
 };
 
 const SERVICE_KEYS: ServiceKey[] = [
-  "quick_scan",
-  "token_analysis",
-  "full_report",
-  "deep_dive",
+  "sol_quick_scan",
+  "sol_market_intel",
+  "sol_deep_dive",
+  "sol_trade",
 ];
 
 // ── Status dot colours ────────────────────────────────────────────────────────
 function statusColor(s: ServiceStatus["status"] | OverallStatus): string {
-  if (s === "ok" || s === "operational") return "var(--green)";
+  if (s === "ok" || s === "operational") return "var(--emerald)";
   if (s === "degraded") return "var(--amber)";
   return "var(--red)";
 }
@@ -94,7 +94,7 @@ export default async function StatusPage() {
         <div className="max-w-8xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
             <div className="section-tag-line" />
-            <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-sol">
+            <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-violet">
               System status
             </span>
           </div>

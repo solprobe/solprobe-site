@@ -604,7 +604,7 @@ export default async function HomePage() {
                   token, and execute swaps — all in one place. Coming soon.
                 </p>
                 <Link
-                  href="https://x.com/solprobeai"
+                  href="https://x.com/solprobe"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-body text-[14px] font-semibold text-white no-underline"
