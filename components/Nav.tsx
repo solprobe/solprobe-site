@@ -44,10 +44,10 @@ export default function Nav() {
           "
         >
           <Image
-            src="/logo.svg"
+            src="/logo-96.png"
             alt="SolProbe"
-            width={28}
-            height={28}
+            width={96}
+            height={96}
             priority
             className="
               h-7 w-auto
