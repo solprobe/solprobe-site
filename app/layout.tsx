@@ -44,18 +44,18 @@ export const metadata: Metadata = {
       "Solana token intelligence for AI agents on Virtuals Protocol ACP.",
     url: "https://solprobe.xyz",
     siteName: "SolProbe",
-    images: [{ url: "/logo.png" }],
+    images: [{ url: "/logo-96.png" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "SolProbe",
     description:
       "Solana token intelligence for AI agents on Virtuals Protocol ACP.",
-    images: ["/logo.png"],
+    images: ["/logo-96.png"],
   },
   icons: {
-    icon: "/logo-mark.svg",
-    shortcut: "/logo-mark.svg",
+    icon: "/logo-96.png",
+    shortcut: "/logo-96.png",
   },
   verification: {
     other: {
