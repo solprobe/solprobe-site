@@ -1,5 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async rewrites() {
+    // Proxy x402 discovery docs from the brand domain to the API host.
+    // Server-side rewrite (not redirect) so buyer agents probing the brand
+    // domain get the manifest body back at `solprobe.xyz/...` without a hop.
+    // The API host already sets `Access-Control-Allow-Origin: *`, so CORS
+    // survives the proxy for browser-agent callers.
+    return [
+      {
+        source: "/.well-known/:path*",
+        destination: "https://api.solprobe.xyz/.well-known/:path*",
+      },
+      {
+        source: "/openapi.json",
+        destination: "https://api.solprobe.xyz/openapi.json",
+      },
+      {
+        source: "/llm.txt",
+        destination: "https://api.solprobe.xyz/llm.txt",
+      },
+    ];
+  },
   async redirects() {
     return [
       {
