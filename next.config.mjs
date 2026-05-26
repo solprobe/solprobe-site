@@ -19,6 +19,15 @@ const nextConfig = {
         source: "/llm.txt",
         destination: "https://api.solprobe.xyz/llm.txt",
       },
+      // Paid + free endpoints — proxied so the brand domain is a fully
+      // functional buyer entry point, not just a discovery surface. Without
+      // these, POST solprobe.xyz/scan/quick 404s and a buyer agent never sees
+      // the 402 challenge that x402 readability auditors look for.
+      { source: "/scan/quick",    destination: "https://api.solprobe.xyz/scan/quick" },
+      { source: "/scan/deep",     destination: "https://api.solprobe.xyz/scan/deep" },
+      { source: "/market/intel",  destination: "https://api.solprobe.xyz/market/intel" },
+      { source: "/trade/quote",   destination: "https://api.solprobe.xyz/trade/quote" },
+      { source: "/trade/execute", destination: "https://api.solprobe.xyz/trade/execute" },
     ];
   },
   async redirects() {
