@@ -4,7 +4,7 @@ import Terminal from "@/components/Terminal";
 export const metadata: Metadata = {
   title: "Services — SolProbe",
   description:
-    "Seventeen Solana services for AI agents — scanning, market intel, deep-dive analysis, discovery radars, graduation tracking, exit checks, wallet intel, Twitter news synthesis, and Jupiter-routed swap execution via Virtuals Protocol ACP.",
+    "Eighteen Solana services for AI agents — scanning, market intel, deep-dive analysis, discovery radars, graduation tracking, exit checks, wallet intel, news synthesis, a flagship trade-suggestion engine, and Jupiter-routed swap execution via Virtuals Protocol ACP.",
 };
 
 // ── Service definitions ─────────────────────────────────────────────────────
@@ -440,14 +440,14 @@ const SERVICES = [
     useCases: [
       "Cheap sentiment read before sizing a position",
       "Watchlist sentiment sweeps for trading agents",
-      "A fast pulse with no LLM cost",
+      "A fast, deterministic pulse",
     ],
     checks: [
       "Live Twitter cashtag stream for the symbol",
       "BULLISH / BEARISH / NEUTRAL signal",
       "Bull / bear / neutral counts",
       "Top terms from the conversation",
-      "Lexicon-only — deterministic, no LLM",
+      "Lexicon-only — deterministic",
     ],
     terminalResponse: {
       source: "news_pulse",
@@ -464,7 +464,7 @@ const SERVICES = [
     tier: 15,
     price: "$0.05",
     name: "News Brief",
-    tagline: "An LLM read of the stream, grounded on-chain",
+    tagline: "A synthesized read of the stream, grounded on-chain",
     sla: "< 10 seconds",
     accentColor: "var(--violet)",
     accentDim: "var(--violet-dim)",
@@ -475,7 +475,7 @@ const SERVICES = [
       "Agents that want prose, not raw tweets",
     ],
     checks: [
-      "Haiku-synthesized brief of the Twitter stream",
+      "Synthesized brief of the Twitter stream",
       "Paired with the Quick Scan structural snapshot",
       "Sentiment grounded against on-chain reality",
       "Symbol (cashtag or mint) mode",
@@ -504,7 +504,7 @@ const SERVICES = [
       "Deeper narrative read than a flat pulse",
     ],
     checks: [
-      "Haiku synthesis with cohort attribution",
+      "Synthesis with cohort attribution",
       "Ecosystem / analyst / degen voice split",
       "Per-cohort sentiment, not just the aggregate",
       "Symbol mode",
@@ -532,7 +532,7 @@ const SERVICES = [
       "Catching invented-token noise before it misleads",
     ],
     checks: [
-      "Sonnet-grade structured JSON report",
+      "In-depth structured JSON report",
       "Key takes + a synthesized narrative",
       "Risks called out explicitly",
       "Watch list with invented-token filtering",
@@ -543,6 +543,37 @@ const SERVICES = [
       takes: ["Retail-driven momentum", "No fresh catalyst"],
       risks: ["Sentiment is reflexive — fades fast"],
       watch_list: ["WIF", "MEW"],
+      data_quality: "FULL",
+    },
+  },
+  {
+    id: "sol_suggest_trade",
+    tier: 18,
+    price: "$0.60",
+    name: "Suggest Trade",
+    tagline: "Find something worth a position — and how to size it",
+    sla: "< 50 seconds",
+    accentColor: "var(--violet)",
+    accentDim: "var(--violet-dim)",
+    accentGlow: "var(--violet-glow)",
+    featured: true,
+    useCases: [
+      "End-to-end discovery + decision-support in one call",
+      "Letting the engine pick the candidate and the plan",
+      "A single flagship call that folds the whole stack",
+    ],
+    checks: [
+      "Fans out to the signal + launch radars",
+      "Deterministically ranks a candidate shortlist",
+      "Runs the full battery on the top pick (deep dive, market, exit, dev-wallet, social)",
+      "Rule-based scorer → action / conviction / suggested size",
+      "trade_plan + selection block (why it was picked)",
+      "Decision-support only — no custody, quote, or execution",
+    ],
+    terminalResponse: {
+      source: "suggest_trade",
+      recommendation: { action: "CONSIDER", conviction: 71, suggested_size_usd: 250 },
+      selection: { candidate: { symbol: "EXAMPLE" }, why_selected: "top convergence + clean exit" },
       data_quality: "FULL",
     },
   },
@@ -572,7 +603,7 @@ export default function ServicesPage() {
             </span>
           </div>
           <h1 className="font-sans font-extrabold text-[clamp(36px,4vw,64px)] leading-[1.05] mb-5">
-            Seventeen services.{" "}
+            Eighteen services.{" "}
             <span className="text-emerald">Pay per use.</span>
           </h1>
           <p className="font-body font-light text-[15px] leading-relaxed text-text-sub max-w-[600px]">

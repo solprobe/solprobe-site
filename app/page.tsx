@@ -190,7 +190,7 @@ const TIERS = [
       "Live Twitter cashtag pulse",
       "Bullish / bearish / neutral signal",
       "Bull / bear counts + top terms",
-      "Lexicon-only, no LLM cost",
+      "Lexicon-only, deterministic",
     ],
   },
   {
@@ -200,7 +200,7 @@ const TIERS = [
     sla: "< 10s",
     icon: "⬢",
     features: [
-      "Haiku-synthesized news read",
+      "Synthesized news read",
       "Paired with Quick Scan structure",
       "Sentiment grounded vs on-chain",
       "Symbol mode",
@@ -213,7 +213,7 @@ const TIERS = [
     sla: "< 12s",
     icon: "⬡",
     features: [
-      "Haiku synthesis + cohort split",
+      "Synthesis + cohort split",
       "Ecosystem / analyst / degen voices",
       "Who is saying what",
       "Attribution beyond aggregate",
@@ -226,10 +226,25 @@ const TIERS = [
     sla: "< 25s",
     icon: "⬢",
     features: [
-      "Sonnet-grade structured report",
+      "In-depth structured report",
       "Key takes + synthesized narrative",
       "Risks + watch list",
       "Invented-token filtering",
+    ],
+  },
+  {
+    tier: 18 as const,
+    price: "$0.60",
+    name: "Suggest Trade",
+    sla: "< 50s",
+    featured: true,
+    icon: "◆",
+    features: [
+      "Discovery + decision-support in one call",
+      "Radar fan-out → ranked shortlist",
+      "Full battery on the top pick",
+      "Action / conviction / size / trade_plan",
+      "Decision-support only — pair with Trade",
     ],
   },
 ] as const;
@@ -427,7 +442,7 @@ export default async function HomePage() {
             </span>
           </div>
           <h2 className="font-sans font-bold text-[clamp(28px,3vw,40px)] mb-12 reveal">
-            Seventeen services. Pay per use.
+            Eighteen services. Pay per use.
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

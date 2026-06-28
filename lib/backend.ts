@@ -27,6 +27,7 @@ export const PATH_TO_SERVICE_ID = {
   "/news/brief":           "news_brief",
   "/news/pulse_plus":      "news_pulse_plus",
   "/news/report":          "news_report",
+  "/trade/suggest":        "suggest_trade",
 } as const;
 
 export type ServiceId = (typeof PATH_TO_SERVICE_ID)[keyof typeof PATH_TO_SERVICE_ID];
@@ -52,6 +53,7 @@ export const SLA_MS_BY_SERVICE: Record<ServiceId, number> = {
   news_brief:          10000,
   news_pulse_plus:     12000,
   news_report:         25000,
+  suggest_trade:       50000,
 };
 
 export interface OpenApiPathOp {
