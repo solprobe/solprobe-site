@@ -23,6 +23,10 @@ export const PATH_TO_SERVICE_ID = {
   "/exit/check":           "exit_check",
   "/exit/cross-check":     "cross_exit_check",
   "/wallet/intel":         "wallet_intel",
+  "/news/pulse":           "news_pulse",
+  "/news/brief":           "news_brief",
+  "/news/pulse_plus":      "news_pulse_plus",
+  "/news/report":          "news_report",
 } as const;
 
 export type ServiceId = (typeof PATH_TO_SERVICE_ID)[keyof typeof PATH_TO_SERVICE_ID];
@@ -44,6 +48,10 @@ export const SLA_MS_BY_SERVICE: Record<ServiceId, number> = {
   exit_check:          7000,
   cross_exit_check:    12000,
   wallet_intel:        9000,
+  news_pulse:          8000,
+  news_brief:          10000,
+  news_pulse_plus:     12000,
+  news_report:         25000,
 };
 
 export interface OpenApiPathOp {

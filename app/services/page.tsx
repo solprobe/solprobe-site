@@ -4,7 +4,7 @@ import Terminal from "@/components/Terminal";
 export const metadata: Metadata = {
   title: "Services — SolProbe",
   description:
-    "Thirteen Solana services for AI agents — scanning, market intel, deep-dive analysis, discovery radars, graduation tracking, exit checks, wallet intel, and Jupiter-routed swap execution via Virtuals Protocol ACP.",
+    "Seventeen Solana services for AI agents — scanning, market intel, deep-dive analysis, discovery radars, graduation tracking, exit checks, wallet intel, Twitter news synthesis, and Jupiter-routed swap execution via Virtuals Protocol ACP.",
 };
 
 // ── Service definitions ─────────────────────────────────────────────────────
@@ -427,6 +427,125 @@ const SERVICES = [
       data_quality: "FULL",
     },
   },
+  {
+    id: "sol_news_pulse",
+    tier: 14,
+    price: "$0.01",
+    name: "News Pulse",
+    tagline: "What's the timeline saying right now?",
+    sla: "< 8 seconds",
+    accentColor: "var(--cyan)",
+    accentDim: "var(--cyan-dim)",
+    accentGlow: "var(--cyan-glow)",
+    useCases: [
+      "Cheap sentiment read before sizing a position",
+      "Watchlist sentiment sweeps for trading agents",
+      "A fast pulse with no LLM cost",
+    ],
+    checks: [
+      "Live Twitter cashtag stream for the symbol",
+      "BULLISH / BEARISH / NEUTRAL signal",
+      "Bull / bear / neutral counts",
+      "Top terms from the conversation",
+      "Lexicon-only — deterministic, no LLM",
+    ],
+    terminalResponse: {
+      source: "news_pulse",
+      cashtag: "BONK",
+      signal: "BULLISH",
+      bull_count: 6,
+      bear_count: 2,
+      top_terms: ["pump", "🚀", "moon"],
+      data_quality: "FULL",
+    },
+  },
+  {
+    id: "sol_news_brief",
+    tier: 15,
+    price: "$0.05",
+    name: "News Brief",
+    tagline: "An LLM read of the stream, grounded on-chain",
+    sla: "< 10 seconds",
+    accentColor: "var(--violet)",
+    accentDim: "var(--violet-dim)",
+    accentGlow: "var(--violet-glow)",
+    useCases: [
+      "Sentiment synthesis for a token you're evaluating",
+      "Pairing narrative with structural safety in one call",
+      "Agents that want prose, not raw tweets",
+    ],
+    checks: [
+      "Haiku-synthesized brief of the Twitter stream",
+      "Paired with the Quick Scan structural snapshot",
+      "Sentiment grounded against on-chain reality",
+      "Symbol (cashtag or mint) mode",
+    ],
+    terminalResponse: {
+      source: "news_brief",
+      cashtag: "BONK",
+      signal: "BULLISH",
+      brief: "Heavy retail enthusiasm; structure clean (grade B, LP burned).",
+      data_quality: "FULL",
+    },
+  },
+  {
+    id: "sol_news_pulse_plus",
+    tier: 16,
+    price: "$0.10",
+    name: "News Pulse+",
+    tagline: "Who is saying what — cohort-attributed sentiment",
+    sla: "< 12 seconds",
+    accentColor: "var(--emerald)",
+    accentDim: "var(--emerald-dim)",
+    accentGlow: "var(--emerald-glow)",
+    useCases: [
+      "Distinguishing analyst conviction from degen hype",
+      "Weighting sentiment by who is voicing it",
+      "Deeper narrative read than a flat pulse",
+    ],
+    checks: [
+      "Haiku synthesis with cohort attribution",
+      "Ecosystem / analyst / degen voice split",
+      "Per-cohort sentiment, not just the aggregate",
+      "Symbol mode",
+    ],
+    terminalResponse: {
+      source: "news_pulse_plus",
+      cashtag: "BONK",
+      cohorts: { ecosystem: "BULLISH", analyst: "NEUTRAL", degen: "BULLISH" },
+      data_quality: "FULL",
+    },
+  },
+  {
+    id: "sol_news_report",
+    tier: 17,
+    price: "$0.25",
+    name: "News Report",
+    tagline: "The deepest read on a token's news flow",
+    sla: "< 25 seconds",
+    accentColor: "var(--amber)",
+    accentDim: "var(--amber-dim)",
+    accentGlow: "rgba(245,158,11,0.30)",
+    useCases: [
+      "Pre-position due diligence on the narrative side",
+      "A structured brief an agent can act on",
+      "Catching invented-token noise before it misleads",
+    ],
+    checks: [
+      "Sonnet-grade structured JSON report",
+      "Key takes + a synthesized narrative",
+      "Risks called out explicitly",
+      "Watch list with invented-token filtering",
+    ],
+    terminalResponse: {
+      source: "news_report",
+      cashtag: "BONK",
+      takes: ["Retail-driven momentum", "No fresh catalyst"],
+      risks: ["Sentiment is reflexive — fades fast"],
+      watch_list: ["WIF", "MEW"],
+      data_quality: "FULL",
+    },
+  },
 ] as const;
 
 // ── Page ────────────────────────────────────────────────────────────────────
@@ -453,7 +572,7 @@ export default function ServicesPage() {
             </span>
           </div>
           <h1 className="font-sans font-extrabold text-[clamp(36px,4vw,64px)] leading-[1.05] mb-5">
-            Thirteen services.{" "}
+            Seventeen services.{" "}
             <span className="text-emerald">Pay per use.</span>
           </h1>
           <p className="font-body font-light text-[15px] leading-relaxed text-text-sub max-w-[600px]">

@@ -180,6 +180,58 @@ const TIERS = [
       "LOW / HIGH / UNKNOWN verdict",
     ],
   },
+  {
+    tier: 14 as const,
+    price: "$0.01",
+    name: "News Pulse",
+    sla: "< 8s",
+    icon: "◈",
+    features: [
+      "Live Twitter cashtag pulse",
+      "Bullish / bearish / neutral signal",
+      "Bull / bear counts + top terms",
+      "Lexicon-only, no LLM cost",
+    ],
+  },
+  {
+    tier: 15 as const,
+    price: "$0.05",
+    name: "News Brief",
+    sla: "< 10s",
+    icon: "⬢",
+    features: [
+      "Haiku-synthesized news read",
+      "Paired with Quick Scan structure",
+      "Sentiment grounded vs on-chain",
+      "Symbol mode",
+    ],
+  },
+  {
+    tier: 16 as const,
+    price: "$0.10",
+    name: "News Pulse+",
+    sla: "< 12s",
+    icon: "⬡",
+    features: [
+      "Haiku synthesis + cohort split",
+      "Ecosystem / analyst / degen voices",
+      "Who is saying what",
+      "Attribution beyond aggregate",
+    ],
+  },
+  {
+    tier: 17 as const,
+    price: "$0.25",
+    name: "News Report",
+    sla: "< 25s",
+    icon: "⬢",
+    features: [
+      "Sonnet-grade structured report",
+      "Key takes + synthesized narrative",
+      "Risks + watch list",
+      "Invented-token filtering",
+    ],
+  },
 ] as const;
 
 // ── Trust badges ─────────────────────────────────────────────────────────────
@@ -375,7 +427,7 @@ export default async function HomePage() {
             </span>
           </div>
           <h2 className="font-sans font-bold text-[clamp(28px,3vw,40px)] mb-12 reveal">
-            Thirteen services. Pay per use.
+            Seventeen services. Pay per use.
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
