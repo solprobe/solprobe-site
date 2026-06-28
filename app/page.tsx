@@ -258,7 +258,7 @@ export default async function HomePage() {
             </span>
           </div>
           <h2 className="font-sans font-bold text-[clamp(28px,3vw,40px)] mb-12 reveal">
-            Four services. Pay per use.
+            Ten services. Pay per use.
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

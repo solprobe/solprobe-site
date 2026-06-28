@@ -4,7 +4,7 @@ import Terminal from "@/components/Terminal";
 export const metadata: Metadata = {
   title: "Services — SolProbe",
   description:
-    "Four Solana services for AI agents — scanning, market intel, deep-dive analysis, and Jupiter-routed swap execution via Virtuals Protocol ACP.",
+    "Ten Solana services for AI agents — scanning, market intel, deep-dive analysis, discovery radars, graduation tracking, and Jupiter-routed swap execution via Virtuals Protocol ACP.",
 };
 
 // ── Service definitions ─────────────────────────────────────────────────────
@@ -154,7 +154,189 @@ const SERVICES = [
       fee_usdc: 0.15,
     },
   },
-] as const;
+  {
+    id: "sol_trending",
+    tier: 5,
+    price: "$0.02",
+    name: "Trending",
+    tagline: "What's hot right now — pre-screened for safety",
+    sla: "< 28 seconds",
+    accentColor: "var(--cyan)",
+    accentDim: "var(--cyan-dim)",
+    accentGlow: "var(--cyan-glow)",
+    useCases: [
+      "Discovery feed for momentum and rotation agents",
+      "Surfacing movers already filtered through the safety gate",
+      "Seeding a watchlist with structurally-screened candidates",
+    ],
+    checks: [
+      "Top trending tokens by volume / liquidity",
+      "Each entry run through the full Quick Scan safety gate (A–F)",
+      "Authority flags, LP burn, top-10 holder % per token",
+      "Liquid staking tokens filtered out",
+      "Sort by rank, 24h volume, or liquidity",
+    ],
+    terminalResponse: {
+      source: "birdeye_trending",
+      limit: 25,
+      tokens: [
+        { rank: 1, symbol: "EXAMPLE", price_usd: 1.23, liquidity_usd: 1500000, quickscan: { structural_risk_grade: "B" } },
+      ],
+      data_quality: "FULL",
+    },
+  },
+  {
+    id: "sol_smart_money",
+    tier: 6,
+    price: "$0.05",
+    name: "Smart Money",
+    tagline: "Where informed traders are deploying",
+    sla: "< 28 seconds",
+    accentColor: "var(--violet)",
+    accentDim: "var(--violet-dim)",
+    accentGlow: "var(--violet-glow)",
+    useCases: [
+      "Copy-trade discovery screened for honeypots",
+      "Following smart-money flow into early positions",
+      "Filtering the smart-money cohort by trader style",
+    ],
+    checks: [
+      "Top tokens the smart-money cohort is buying",
+      "Interval selectable: 1d / 7d / 30d",
+      "Trader style: all / risk_averse / risk_balancers / trenchers",
+      "Net smart-money flow + distinct smart-trader count",
+      "Each entry run through the Quick Scan safety gate (A–F)",
+    ],
+    terminalResponse: {
+      source: "birdeye_smart_money",
+      interval: "7d",
+      tokens: [
+        { symbol: "EXAMPLE", net_flow_usd: 12500, smart_traders_no: 87, quickscan: { structural_risk_grade: "B" } },
+      ],
+      data_quality: "FULL",
+    },
+  },
+  {
+    id: "sol_signal_radar",
+    tier: 7,
+    price: "$0.04",
+    name: "Signal Radar",
+    tagline: "What's converging on-chain right now",
+    sla: "< 25 seconds",
+    accentColor: "var(--emerald)",
+    accentDim: "var(--emerald-dim)",
+    accentGlow: "var(--emerald-glow)",
+    useCases: [
+      "Attention radar for conviction-seeking agents",
+      "Catching multi-signal convergence before price moves",
+      "Ranking the day's setups by how many signals co-fire",
+    ],
+    checks: [
+      "Weighted convergence score per token",
+      "Distinct bullish signals: smart-money buys, ATH, price spikes, CTO",
+      "Each top entry structurally enriched (A–F grade)",
+      "Neutral manipulation flags (bundler, wash, rug, fresh-wallet, insider)",
+      "Optional market-cap and min-convergence filters",
+    ],
+    terminalResponse: {
+      source: "convergence_signals",
+      tokens: [
+        { rank: 1, symbol: "EXAMPLE", convergence_score: 7, distinct_bullish_types: 3, quickscan: { structural_risk_grade: "B" } },
+      ],
+      data_quality: "FULL",
+    },
+  },
+  {
+    id: "sol_launch_radar",
+    tier: 8,
+    price: "$0.05",
+    name: "Launch Radar",
+    tagline: "Pre-graduation discovery DEX scanners miss",
+    sla: "< 25 seconds",
+    accentColor: "var(--amber)",
+    accentDim: "var(--amber-dim)",
+    accentGlow: "rgba(245,158,11,0.30)",
+    useCases: [
+      "Bonding-curve discovery for early-entry agents",
+      "Surfacing launchpad tokens before they hit a DEX",
+      "Grading new launches before any liquidity footprint exists",
+    ],
+    checks: [
+      "Bonding-curve tokens across new_creation + near_completion",
+      "Each candidate graded A–F by the SolProbe risk engine",
+      "Launchpad manipulation signals folded into the grade",
+      "near_completion candidates get a full Quick Scan snapshot",
+      "Optional stage / preset / smart-money / rug / market-cap filters",
+    ],
+    terminalResponse: {
+      source: "launchpad_radar",
+      tokens: [
+        { rank: 1, symbol: "EXAMPLE", stage: "near_completion", risk_grade: "B", bonding_progress: 0.87, smart_degen_count: 3 },
+      ],
+      data_quality: "FULL",
+    },
+  },
+  {
+    id: "sol_graduation_radar",
+    tier: 9,
+    price: "$0.06",
+    name: "Graduation Radar",
+    tagline: "Tokens about to graduate off the curve",
+    sla: "< 25 seconds",
+    accentColor: "var(--cyan)",
+    accentDim: "var(--cyan-dim)",
+    accentGlow: "var(--cyan-glow)",
+    useCases: [
+      "Catching the graduation moment for timing agents",
+      "Ranking imminent graduations by bonding progress",
+      "Keeping brand-impersonation rugs visible near the top of the curve",
+    ],
+    checks: [
+      "near_completion tokens above a bonding threshold (default 70%)",
+      "Ranked by closeness to graduation",
+      "A–F grade + manipulation flags retained per token",
+      "Average fill-rate and estimated minutes-to-graduation",
+      "Optional min_bonding_progress / min_grade / limit",
+    ],
+    terminalResponse: {
+      source: "graduation_radar",
+      tokens: [
+        { rank: 1, symbol: "EXAMPLE", risk_grade: "B", bonding_progress: 0.96, est_minutes_to_graduation: 2.5 },
+      ],
+      data_quality: "FULL",
+    },
+  },
+  {
+    id: "sol_graduation_momentum",
+    tier: 10,
+    price: "$0.40",
+    name: "Graduation Momentum",
+    tagline: "Premium momentum scoring on graduation candidates",
+    sla: "< 50 seconds",
+    accentColor: "var(--violet)",
+    accentDim: "var(--violet-dim)",
+    accentGlow: "var(--violet-glow)",
+    useCases: [
+      "Ranking graduation candidates by buying velocity",
+      "Premium conviction scoring for execution-ready agents",
+      "Filtering momentum that can't be realised (exit-gated)",
+    ],
+    checks: [
+      "Scores the top N candidates 0–100 (HOT / HEATING / COOLING / FLAT)",
+      "Folds bonding-curve velocity + market signal",
+      "Exit-feasibility gate (sellable + honeypot / sell-tax)",
+      "Dev-wallet risk discount applied",
+      "Holder breakdown with curve_conflated flag",
+      "Optional min_bonding_progress / min_grade / enrich_count",
+    ],
+    terminalResponse: {
+      source: "graduation_momentum",
+      tokens: [
+        { rank: 1, symbol: "EXAMPLE", momentum_score: 78, momentum_label: "HOT", market_signal_source: "market_intel" },
+      ],
+      data_quality: "FULL",
+    },
+  },] as const;
 
 // ── Page ────────────────────────────────────────────────────────────────────
 export default function ServicesPage() {
@@ -180,7 +362,7 @@ export default function ServicesPage() {
             </span>
           </div>
           <h1 className="font-sans font-extrabold text-[clamp(36px,4vw,64px)] leading-[1.05] mb-5">
-            Four services.{" "}
+            Ten services.{" "}
             <span className="text-emerald">Pay per use.</span>
           </h1>
           <p className="font-body font-light text-[15px] leading-relaxed text-text-sub max-w-[600px]">

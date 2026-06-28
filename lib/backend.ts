@@ -14,6 +14,12 @@ export const PATH_TO_SERVICE_ID = {
   "/market/intel":  "market_intel",
   "/scan/deep":     "deep_dive",
   "/trade/execute": "sol_trade",
+  "/scan/trending":        "trending",
+  "/scan/smart-money":     "smart_money",
+  "/signal/radar":         "signal_radar",
+  "/launch/radar":         "launch_radar",
+  "/graduation/radar":     "graduation_radar",
+  "/graduation/momentum":  "graduation_momentum",
 } as const;
 
 export type ServiceId = (typeof PATH_TO_SERVICE_ID)[keyof typeof PATH_TO_SERVICE_ID];
@@ -26,6 +32,12 @@ export const SLA_MS_BY_SERVICE: Record<ServiceId, number> = {
   market_intel: 10000,
   deep_dive:    30000,
   sol_trade:    15000,
+  trending:            28000,
+  smart_money:         28000,
+  signal_radar:        25000,
+  launch_radar:        25000,
+  graduation_radar:    25000,
+  graduation_momentum: 50000,
 };
 
 export interface OpenApiPathOp {
