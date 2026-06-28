@@ -63,6 +63,123 @@ const TIERS = [
       "Confirmed tx_signature on success",
     ],
   },
+  {
+    tier: 5 as const,
+    price: "$0.02",
+    name: "Trending",
+    sla: "< 28s",
+    icon: "⬡",
+    features: [
+      "Top movers by volume / liquidity",
+      "A–F safety gate per token",
+      "LSTs filtered out",
+      "Discovery for momentum agents",
+    ],
+  },
+  {
+    tier: 6 as const,
+    price: "$0.05",
+    name: "Smart Money",
+    sla: "< 28s",
+    icon: "◈",
+    features: [
+      "Smart-money cohort's top buys",
+      "Net flow + distinct trader count",
+      "Interval 1d / 7d / 30d",
+      "Pre-screened for honeypots",
+    ],
+  },
+  {
+    tier: 7 as const,
+    price: "$0.04",
+    name: "Signal Radar",
+    sla: "< 25s",
+    icon: "⬢",
+    features: [
+      "Weighted convergence score",
+      "Co-firing bullish signals",
+      "A–F structural grade",
+      "Neutral manipulation flags",
+    ],
+  },
+  {
+    tier: 8 as const,
+    price: "$0.05",
+    name: "Launch Radar",
+    sla: "< 25s",
+    icon: "⬡",
+    features: [
+      "Pre-graduation bonding-curve tokens",
+      "A–F launchpad grading",
+      "Rug / bundler / sniper signals",
+      "Early-entry discovery",
+    ],
+  },
+  {
+    tier: 9 as const,
+    price: "$0.06",
+    name: "Graduation Radar",
+    sla: "< 25s",
+    icon: "◈",
+    features: [
+      "About-to-graduate tokens",
+      "Ranked by bonding progress",
+      "Minutes-to-graduation ETA",
+      "Manipulation flags retained",
+    ],
+  },
+  {
+    tier: 10 as const,
+    price: "$0.40",
+    name: "Graduation Momentum",
+    sla: "< 50s",
+    icon: "⬢",
+    features: [
+      "0–100 momentum score",
+      "Curve velocity + market signal",
+      "Exit-feasibility gated",
+      "Dev-wallet risk discount",
+    ],
+  },
+  {
+    tier: 11 as const,
+    price: "$0.01",
+    name: "Exit Check",
+    sla: "< 7s",
+    icon: "⟳",
+    features: [
+      "Sellable yes / no",
+      "Round-trip USDC + price impact",
+      "Honeypot / freeze / Token-2022 blockers",
+      "Cheapest pre-trade gate",
+    ],
+  },
+  {
+    tier: 12 as const,
+    price: "$0.01",
+    name: "Cross-chain Exit Check",
+    sla: "< 12s",
+    icon: "⟳",
+    features: [
+      "Li.Fi bridge-leg quote",
+      "Solana → home-chain USDC",
+      "Base / Arbitrum / Optimism / Polygon / ETH",
+      "All-in exit cost",
+    ],
+  },
+  {
+    tier: 13 as const,
+    price: "$0.10",
+    name: "Wallet Intel",
+    sla: "< 9s",
+    icon: "◈",
+    features: [
+      "Win rate + realized PnL",
+      "Hold time + funding origin",
+      "Behaviour style classification",
+      "LOW / HIGH / UNKNOWN verdict",
+    ],
+  },
 ] as const;
 
 // ── Trust badges ─────────────────────────────────────────────────────────────
@@ -258,7 +375,7 @@ export default async function HomePage() {
             </span>
           </div>
           <h2 className="font-sans font-bold text-[clamp(28px,3vw,40px)] mb-12 reveal">
-            Ten services. Pay per use.
+            Thirteen services. Pay per use.
           </h2>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

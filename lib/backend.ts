@@ -20,6 +20,9 @@ export const PATH_TO_SERVICE_ID = {
   "/launch/radar":         "launch_radar",
   "/graduation/radar":     "graduation_radar",
   "/graduation/momentum":  "graduation_momentum",
+  "/exit/check":           "exit_check",
+  "/exit/cross-check":     "cross_exit_check",
+  "/wallet/intel":         "wallet_intel",
 } as const;
 
 export type ServiceId = (typeof PATH_TO_SERVICE_ID)[keyof typeof PATH_TO_SERVICE_ID];
@@ -38,6 +41,9 @@ export const SLA_MS_BY_SERVICE: Record<ServiceId, number> = {
   launch_radar:        25000,
   graduation_radar:    25000,
   graduation_momentum: 50000,
+  exit_check:          7000,
+  cross_exit_check:    12000,
+  wallet_intel:        9000,
 };
 
 export interface OpenApiPathOp {

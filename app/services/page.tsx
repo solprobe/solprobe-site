@@ -4,7 +4,7 @@ import Terminal from "@/components/Terminal";
 export const metadata: Metadata = {
   title: "Services — SolProbe",
   description:
-    "Ten Solana services for AI agents — scanning, market intel, deep-dive analysis, discovery radars, graduation tracking, and Jupiter-routed swap execution via Virtuals Protocol ACP.",
+    "Thirteen Solana services for AI agents — scanning, market intel, deep-dive analysis, discovery radars, graduation tracking, exit checks, wallet intel, and Jupiter-routed swap execution via Virtuals Protocol ACP.",
 };
 
 // ── Service definitions ─────────────────────────────────────────────────────
@@ -336,7 +336,98 @@ const SERVICES = [
       ],
       data_quality: "FULL",
     },
-  },] as const;
+  },
+  {
+    id: "sol_exit_check",
+    tier: 11,
+    price: "$0.01",
+    name: "Exit Check",
+    tagline: "Can you get out — and at what cost?",
+    sla: "< 7 seconds",
+    accentColor: "var(--emerald)",
+    accentDim: "var(--emerald-dim)",
+    accentGlow: "var(--emerald-glow)",
+    useCases: [
+      "Pre-trade trap-exit screen for trading agents",
+      "Confirming a position is sellable before sizing up",
+      "Catching honeypots a buy-side scan alone misses",
+    ],
+    checks: [
+      "Deterministic sellable yes / no",
+      "Expected USDC on a round-trip (default $10)",
+      "Exit price impact + route count",
+      "Hard blockers: freeze authority, Token-2022 non-transferable, transfer fee bps",
+    ],
+    terminalResponse: {
+      source: "exit_check",
+      sellable: true,
+      expected_return_usdc: 9.81,
+      exit_price_impact_pct: 0.18,
+      blockers: [],
+      data_quality: "FULL",
+    },
+  },
+  {
+    id: "sol_cross_exit_check",
+    tier: 12,
+    price: "$0.01",
+    name: "Cross-chain Exit Check",
+    tagline: "All-in cost to exit a Solana token back to your own chain",
+    sla: "< 12 seconds",
+    accentColor: "var(--amber)",
+    accentDim: "var(--amber-dim)",
+    accentGlow: "rgba(245,158,11,0.30)",
+    useCases: [
+      "Non-Solana agents pricing a full exit home",
+      "Comparing Solana-native vs bridged exit cost",
+      "Treasury agents repatriating to their home chain",
+    ],
+    checks: [
+      "Everything in Exit Check, plus:",
+      "Li.Fi bridge-leg quote (Solana USDC → home-chain USDC)",
+      "Home chain: base / arbitrum / optimism / polygon / ethereum",
+      "Composite net_home_output_usdc + all_in_cost_pct",
+    ],
+    terminalResponse: {
+      source: "cross_exit_check",
+      home_chain: "base",
+      net_home_output_usdc: 9.62,
+      all_in_cost_pct: 0.44,
+      data_quality: "FULL",
+    },
+  },
+  {
+    id: "sol_wallet_intel",
+    tier: 13,
+    price: "$0.10",
+    name: "Wallet Intel",
+    tagline: "Vet any Solana wallet before you follow it",
+    sla: "< 9 seconds",
+    accentColor: "var(--violet)",
+    accentDim: "var(--violet-dim)",
+    accentGlow: "var(--violet-glow)",
+    useCases: [
+      "Deciding whether to copy-trade a wallet",
+      "Screening a dev or whale before acting on their token",
+      "Vetting a counterparty in an agent-to-agent deal",
+    ],
+    checks: [
+      "Win rate, realized PnL, average hold time",
+      "Wallet age + funding origin (CEX / mixer / fresh)",
+      "Behaviour style (sniper / flipper / hodler / bot / pro)",
+      "Copy-trade worthiness with sample size",
+      "LOW_RISK / HIGH_RISK / UNKNOWN verdict",
+    ],
+    terminalResponse: {
+      source: "wallet_intel",
+      win_rate_pct: 61.5,
+      realized_pnl_usd: 24800,
+      behaviour_style: "pro_trader",
+      verdict: "LOW_RISK",
+      data_quality: "FULL",
+    },
+  },
+] as const;
 
 // ── Page ────────────────────────────────────────────────────────────────────
 export default function ServicesPage() {
@@ -362,7 +453,7 @@ export default function ServicesPage() {
             </span>
           </div>
           <h1 className="font-sans font-extrabold text-[clamp(36px,4vw,64px)] leading-[1.05] mb-5">
-            Ten services.{" "}
+            Thirteen services.{" "}
             <span className="text-emerald">Pay per use.</span>
           </h1>
           <p className="font-body font-light text-[15px] leading-relaxed text-text-sub max-w-[600px]">
